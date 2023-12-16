@@ -1,0 +1,49 @@
+<div class="accordion accordion-flush" id="accordionFlushExample">
+  <div class="accordion-item">
+    <h2 class="accordion-header" id="flush-headingOne">
+      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
+        Добавить пациента
+      </button>
+    </h2>
+    <div id="flush-collapseOne" class="accordion-collapse {% if not form.errors %} collapse {% endif %}" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
+      <div class="accordion-body">
+          <form class="row row-cols-lg-auto g-3 align-items-top">
+          <div class="form-error col-12">{{ form.non_field_errors }}</div>
+          <input type="hidden" name="direction" value="{{ direction }}">
+          <input type="hidden" name="order" value="{{ order }}">
+          {% for f in form %}
+          <div class="col-12">
+            <div class="form-group">
+              {% if f.name == 'birthday' %}
+                 <div class="input-group">
+                 {{ f }}
+                 </div>
+              {% else %}
+                 <label class="visually-hidden" for="{{ f.id_for_label }}" aria-describedby="{{ f.id_for_label }}_Small">{{ f.label }}</label>
+                {{ f }}
+              {% endif %}
+                <div class="form-error col-12">
+                  {% if f.errors %}
+                      <ul>
+                      {% for error in f.errors %}
+                        <small id="{{ f.id_for_label }}_Small" class="form-text text-muted error-message"><span style="color: #FF3333;">* {{ error }}</span></small>
+                       {% endfor %}
+                      </ul>
+                  {% endif %}
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+          <div class="d-grid gap-2 d-md-block">
+              <button type="submit"
+                      class="disbtn btn btn-outline-primary btn-md"
+                      hx-post="{% url 'patients:create_patient' %}"
+                      hx-target="#main">
+                      Добавить
+              </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

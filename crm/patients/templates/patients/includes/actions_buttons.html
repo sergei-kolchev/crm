@@ -1,0 +1,18 @@
+<!-- Кнопка "Редактировать" -->
+<button class="disbtn table-button btn btn-outline-primary btn-sm me-2"
+        hx-put="{% url 'patients:update_patient' patient.pk %}"
+        hx-target="closest tr"
+        hx-swap="outerHTML">
+    Изменить
+</button>
+<!-- Кнопка "Удалить" -->
+<button class="disbtn table-button btn btn-outline-danger btn-sm"
+    hx-delete="{% url 'patients:patient_delete' patient.pk %}"
+    hx-trigger='confirmed'
+    hx-target="closest tr"
+    hx-swap="outerHTML"
+    _="on click
+        call Swal.fire({icon: 'warning', title: 'Внимание', text:'Вы точно хотите удалить пациента &quot;{{ patient.surname }} {{ patient.name }} {{ patient.patronymic }}&quot;?', background: 'white', showCancelButton: true, confirmButtonColor: '#0d6efd', cancelButtonColor: '#dc3545', confirmButtonText: 'Да', cancelButtonText: 'Отмена'})
+        if result.isConfirmed trigger confirmed">
+  Удалить
+</button>

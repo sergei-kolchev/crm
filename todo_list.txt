@@ -1,0 +1,34 @@
+####
+
+- В tox.ini в раздел envlist добавить (конфиги настроены):
+- bandit (переделать settings.py, убрать все secure параметры)
+- pyright (для pyright приделать заглушки для анализы типов django, чтобы не
+ругался на типы)
+
+- Как вариант добавить poetry, приделать tox к poetry
+
+- patients/views.py приделать проверку ФИО, если такое ФИО уже есть сообщать
+об этом, но не запрещать добавить
+
+
+- Приделать CI pipeline - github flow
+
+- Тест для utils
+
+- Тесты для service
+
+- Тесты для htmx
+
+
+
+### Для тестирования (ручной прогон)
+
+black patients/ --diff --color --line-length=79 - прогнать до изменения кода
+black patients/ --line-length=79 - изменить
+isort patients/ --diff - прогнать до изменений
+isort patients -rc - изменить
+coverage run --source='patients,htmx' manage.py test -v 2 - покрытие тестами
+coverage report - вывести отчет
+
+flake8 crm/patients
+pyright crm/patients

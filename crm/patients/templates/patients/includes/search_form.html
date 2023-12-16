@@ -1,0 +1,12 @@
+<div class="input-group mb-3">
+  <span class="input-group-text"><i class="bi bi-search"></i></span>
+  <input id="search" type="search" name="q" type="text" value="{{ request.GET.q }}" class="form-control" placeholder="{{ placeholder }}" aria-label="{{ placeholder }}" aria-describedby="button-addon2"
+        hx-get="{{ path }}"
+        hx-trigger="search, keyup delay:200ms changed"
+        hx-target={{ target }}
+        hx-push-url="true"
+        hx-indicator="#spinner"
+        hx-swap="innerHTML"
+        onkeydown="if(event.keyCode==13){return false;}"
+  />
+</div>

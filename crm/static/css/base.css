@@ -1,0 +1,72 @@
+body {
+    padding: 0px;
+    background-color: rgb(246, 246, 246);
+}
+
+a.sidebar_link {
+    color: black;
+}
+
+a.sidebar_link:hover {
+    color: gray;
+}
+
+/* Задаёт цвет заголовка таблицы. */
+thead {
+    background-color: rgb(240, 240, 240);
+}
+
+/* Задаёт цвет тела таблицы. */
+tbody {
+    background-color: rgb(252, 252, 252);
+}
+
+/* Задаёт размер шрифта таблицы. */
+td {
+    font-size: 14px;
+}
+
+/* Задаёт высоту строки таблицы. */
+tr {
+    line-height: 26px;
+    min-height: 26px;
+    height: 26px;
+ }
+
+/* Чтобы удалить ошибочное подчеркивание между символами сортировки. */
+a {
+    text-decoration: none;
+}
+
+/* Задаёт высоту текстовых полей формы редактирования книги. */
+ .form-control-sm {
+    line-height: 24px;
+    min-height: 24px;
+    height: 24px;
+ }
+
+/* Задаёт цвет шрифта для неактивного пациента. */
+.grey-text {
+    color: rgb(192, 192, 192);
+}
+
+/* Задаёт ширину кнопок Прочитана и Не прочитана. */
+.status-button {
+    width: 107px;
+}
+
+/* Задаёт ширину кнопок Изменить, Удалить, Сохранить и Отменить. */
+.any-button {
+    width: 80px;
+}
+
+/* Задаёт размер шрифта кнопок в таблице. */
+.table-button {
+    font-size: 13px;
+}
+
+/* Отключает кнопки сортировки. */
+.disabled-button {
+      opacity: 0.5;
+      pointer-events: none;
+ }

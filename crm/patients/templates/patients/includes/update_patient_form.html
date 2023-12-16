@@ -1,0 +1,37 @@
+<tr>
+    <td class="align-middle ps-2">
+        <div class="input-group">
+            {{ form.surname }} {{ form.name }} {{ form.patronymic }}
+        </div>
+    </td>
+    <td class="align-middle text-center">
+        <div class="input-group">
+        {{ form.birthday }}
+        </div>
+    </td>
+    <td class="align-middle text-center">
+         {% include 'patients/includes/status_buttons.html' with p=patient %}
+    </td>
+    <td class="align-middle text-center">
+        <!-- Кнопка "Сохранить" -->
+        <button type="submit"
+                class="table-button btn btn-success btn-sm me-2"
+                hx-post="{% url 'patients:update_patient' patient.id %}"
+                hx-target="closest tr"
+                hx-swap="outerHTML"
+                hx-trigger="confirmed"
+                hx-include="closest tr"
+                _="on click
+                   call Swal.fire({icon: 'question', title: 'Внимание', text:'Вы точно хотите сохранить изменения?', background: 'white', showCancelButton: true, confirmButtonColor: '#0d6efd', cancelButtonColor: '#dc3545', confirmButtonText: 'Да', cancelButtonText: 'Отмена'})
+                   if result.isConfirmed trigger confirmed">
+            Сохранить
+        </button>
+        <!-- Кнопка "Отменить" -->
+        <button class="table-button btn btn-warning btn-sm me-2"
+                hx-get="{% url 'patients:patient_detail' patient.id %}"
+                hx-target="closest tr"
+                hx-swap="outerHTML">
+            Отменить
+        </button>
+    </td>
+</tr>

@@ -1,0 +1,31 @@
+{% load static %}
+{% if patients.paginator.count > 0 %}
+<div id="search_result">
+<table  class="table table-bordered table-sm mt-4">
+    <thead>
+    <tr>
+        <th scope="col" style="width: 30%" class="text-center">
+            {% include 'patients/includes/table_header_field.html' with name='ФИО' order='surname' disabled='disabled-button' %}
+        </th>
+        <th scope="col" style="width: 20%" class="text-center">
+           {% include 'patients/includes/table_header_field.html' with name='Дата рождения' order='birthday' disabled='' %}
+        </th>
+        <th scope="col" style="width: 15%" class="text-center">
+           {% include 'patients/includes/table_header_field.html' with name='Cостояние' order='active' disabled='' %}
+        </th>
+        <th scope="col" style="width: 20%" class="text-center">Действия</th>
+    </tr>
+    </thead>
+    <tbody>
+        {% include 'patients/includes/patients_tbody.html' %}
+    </tbody>
+</table>
+{% else %}
+<div class="text-center">
+    <figure class="figure">
+    <img src="{% static 'images/no_results_found.png' %}" class="figure-img img-fluid rounded" alt="По вашему запросу ничего не найдено" style="width:100px;">
+        <figcaption class="figure-caption">По вашему запросу ничего не найдено</figcaption>
+    </figure>
+</div>
+{% endif %}
+</div>

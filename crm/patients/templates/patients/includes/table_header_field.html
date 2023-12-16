@@ -1,0 +1,15 @@
+<small>
+    {{ name }}
+    <a href=""
+       hx-get="{% url 'patients:patients' order=order direction='asc' %}{% if q %}?q={{ q }}{% endif %}"
+       hx-target="#main"
+       hx-swap="innerHTML">
+       <i class="table-icon bi bi-arrow-down-square ms-1 {{ order }}-asc {{ disabled }}"></i>
+    </a>
+    <a href=""
+       hx-get="{% url 'patients:patients' order=order direction='desc' %}{% if q %}?q={{ q }}{% endif %}"
+       hx-target="#main"
+       hx-swap="innerHTML">
+       <i class="table-icon bi bi-arrow-up-square  {{ order }}-desc"></i>
+    </a>
+</small>

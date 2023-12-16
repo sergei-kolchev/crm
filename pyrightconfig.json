@@ -1,0 +1,14 @@
+{
+  "include": [
+    "crm/htmx"
+  ],
+  "exclude": [
+    "**/node_modules",
+    "**/__pycache__",
+    "src/experimental",
+    "src/typestubs",
+    "**/tests.py",
+    "**/migrations",
+    "**/apps.py"
+  ]
+}

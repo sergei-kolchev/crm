@@ -1,0 +1,9 @@
+{% for patient in patients %}
+    {% include 'patients/includes/patient_detail.html' %}
+{% endfor %}
+<tr style="border: 0px;">
+    <td style="border: 0px; background-color: white;" colspan="4">
+        {% url 'patients:patients' order direction as path %}
+        {% include 'patients/includes/navigation.html' with page_obj=patients path=path q=q %}
+    </td>
+</tr>

@@ -1,0 +1,10 @@
+    <tr class="{% if not patient.active %}grey-text{% endif %}">
+        <td class="align-middle ps-2">{{ patient.surname }} {{ patient.name }} {{ patient.patronymic }} </td>
+        <td class="align-middle text-center"> {{ patient.birthday }} </td>
+         <td class="align-middle text-center">
+             {% include 'patients/includes/status_buttons.html' %}
+        </td>
+        <td class="align-middle text-center">
+             {% include 'patients/includes/actions_buttons.html' %}
+        </td>
+    </tr>
