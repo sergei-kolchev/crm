@@ -49,3 +49,12 @@ document.body.addEventListener('"errorMessage"', function(evt){
                timer:1500
             });
 })
+document.body.addEventListener('htmx:sendError', function(evt){
+    Swal.fire({
+               position: 'top-end',
+               icon: 'warning',
+               title: 'Соединение потеряно',
+               showConfirmButton: false,
+               timer:1500
+            });
+})

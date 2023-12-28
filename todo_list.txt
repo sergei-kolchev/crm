@@ -19,7 +19,7 @@
 
 - Тесты для htmx
 
-
+- в patients Приделать проверку на получение страниц без логина
 
 ### Для тестирования (ручной прогон)
 
@@ -32,3 +32,8 @@ coverage report - вывести отчет
 
 flake8 crm/patients
 pyright crm/patients
+pyright crm/patients --stats --warnings
+
+
+test
+Test12345678

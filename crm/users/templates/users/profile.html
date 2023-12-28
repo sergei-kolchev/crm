@@ -1,0 +1,33 @@
+{% block content %}
+<h3 align="center">{{ title }}</h3>
+{% include 'patients/includes/spinner.html' %}
+<form>
+    <div class="container col-md-6 col-md-offset-3 text-center">
+    {% csrf_token %}
+    {% if user.photo %}
+    <p><img style="border-radius: 20px;border: 1px solid black;" src="{{ user.photo.url }}">
+    {% else %}
+    <p><img style="width:150px;" src="{{ default_image }}">
+    {% endif %}
+    <div class="form-error">{{ form.non_field_errors }}</div>  
+    {% for f in form %}  
+        <div class="input-group mb-3">
+            <span class="input-group-text" id="{{ f.id_for_label }}">{{ f.label }}</span>
+            {{ f }}
+        </div>
+        {% if f.errors %}
+        <div class="text-danger">{{ f.errors }}</div>
+        {% endif %}
+    {% endfor %}
+    <p>
+    <button class="btn btn-dark btn-sm"
+            hx-post="{% url 'users:profile' %}"
+            hx-encoding="multipart/form-data"
+            hx-target="#main" >
+        Сохранить
+    </button>
+    </p>
+    </div>
+</form>
+    <a href="#" hx-get="{% url 'users:password_change' %}" hx-target="#main">изменить пароль</a>
+{% endblock %}

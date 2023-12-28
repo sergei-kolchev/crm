@@ -40,8 +40,10 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "debug_toolbar",
+    "easy_thumbnails",
     "htmx",
     "patients.apps.PatientsConfig",
+    "users.apps.UsersConfig",
 ]
 
 MIDDLEWARE = [
@@ -110,7 +112,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/5.0/topics/i18n/
 
-LANGUAGE_CODE = "ru-Ru"
+LANGUAGE_CODE = "ru-RU"
 
 TIME_ZONE = "UTC"
 
@@ -130,6 +132,24 @@ STATICFILES_DIRS = [BASE_DIR / "static"]
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
+MEDIA_ROOT = BASE_DIR / "media"
+MEDIA_URL = "/media/"
 
 # CRM Settings
 PATIENTS_PAGINATE_BY = 5
+
+LOGIN_REDIRECT_URL = "patients:index"
+LOGOUT_REDIRECT_URL = "users:login"
+LOGIN_URL = "users:login"
+
+AUTH_USER_MODEL = "users.User"
+
+DEFAULT_USER_IMAGE = MEDIA_URL + "users/noun-profile-801396.png"
+
+AVATAR_FILE_MAX_SIZE = 1000 * 256  # в кибибайтах
+AVATAR_MAX_WIDTH = 600
+AVATAR_MIN_WIDTH = 100
+AVATAR_MAX_HEIGHT = 600
+AVATAR_MIN_HEIGHT = 100
+AVATAR_WIDTH = 150
+AVATAR_HEIGHT = 150

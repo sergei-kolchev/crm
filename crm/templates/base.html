@@ -37,9 +37,9 @@
           <a class="nav-link" href="{% url 'patients:contacts' %}" hx-boost="true" hx-target="#main" hx-swap="innerHTML">Контакты</a>
         </li>
       </ul>
-      <span class="navbar-text">
-        user | <a href="">Выйти</a>
-      </span>
+          <span class="navbar-text"><a  hx-boost="true" hx-target="#main" style="padding-right:10px;" href="{% url 'users:profile' %}">{{ user.username }}</a></span>
+          <form hx-boost="false" action="{% url 'users:logout' %}" method="post">{% csrf_token %}<button class="btn btn-outline-light btn-sm" type="submit">Выйти</button></form>
+         </span>
     </div>
   </div>
 </nav>
