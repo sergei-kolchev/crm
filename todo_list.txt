@@ -1,32 +1,48 @@
 ####
 
-- В tox.ini в раздел envlist добавить (конфиги настроены):
-- bandit (переделать settings.py, убрать все secure параметры)
-- pyright (для pyright приделать заглушки для анализы типов django, чтобы не
-ругался на типы)
-
-- Как вариант добавить poetry, приделать tox к poetry
-
-- patients/views.py приделать проверку ФИО, если такое ФИО уже есть сообщать
-об этом, но не запрещать добавить
-
-
 - Приделать CI pipeline - github flow
 
 - Тест для utils
 
 - Тесты для service
 
-- Тесты для htmx
+- в хлебных крошках добавить hx-boost="true"
 
-- в patients Приделать проверку на получение страниц без логина
+- в хлебных крошках изменить цвет фона
+
+- хлебные крошки добавить во все шаблоны
+
+- хлебные крошки перевести на русский
+
+- вынести хлебные крошки в отдельное приложение breadcrumbs
+
+- сделать локализацию с переводом хлебных крошок
+
+- к hospitalizations приделать класс notes one-to-one (после очистки базы), затем добавить фейковые данные
+
+- сделать заметки с чек боксами и выводом в списке текущих госпитализаций, с
+возможностью редактирования, сделать отдельное приложение для заметок
+
+- переделать отображение кнопок сортировки в списке пациентов
+
+- тесты для hospitalizations (модели, сервис,  check_date_intersection из utils)
+
+- добавить вывод и формирование медицинских документов (бланки, НГ)
+
+- добавить отслеживание больничных листов, изменение дат ВК
+
+- добавить формирование ВК для ЭВН и другие ВК (celery)
+
+- добавить формирование журналов ВК и ЭВН (celery )
+
+- переделать передачу сообщений в class based views, сделать стек сообщений?
 
 ### Для тестирования (ручной прогон)
 
-black patients/ --diff --color --line-length=79 - прогнать до изменения кода
-black patients/ --line-length=79 - изменить
-isort patients/ --diff - прогнать до изменений
-isort patients -rc - изменить
+black ~/python/crm/crm --diff --color --line-length=79 - прогнать до изменения кода
+black ~/python/crm/crm --line-length=79 - изменить
+isort ~/python/crm/crm --diff --color - прогнать до изменений
+isort ~/python/crm/crm -rc - изменить
 coverage run --source='patients,htmx' manage.py test -v 2 - покрытие тестами
 coverage report - вывести отчет
 
@@ -37,3 +53,21 @@ pyright crm/patients --stats --warnings
 
 test
 Test12345678
+
+python manage.py migrate patients 0001
+
+
+python manage.py loaddata users_user.json
+
+
+Запуск celery в режиме отладки:
+celery -A crm worker -l info
+
+sudo docker-compose -f docker-compose-dev.yaml up -d
+
+
+rabbitmq:
+guest
+guest
+
+https://pypi.org/project/django-dynamic-breadcrumbs/

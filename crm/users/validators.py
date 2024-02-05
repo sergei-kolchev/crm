@@ -24,15 +24,19 @@ class ImageMinDimValidator:
     _code = "image_min_dim_validator"
 
     def __init__(self, dims: tuple[int, int], message: str = None):
-        if type(dims) != tuple:
+        if type(dims) is not tuple:
             raise TypeError('Invalid type of "dims" variable, tuple expected')
 
-        if len(dims) != 2 or type(dims[0]) != int or type(dims[1]) != int:
+        if (
+            len(dims) != 2
+            or type(dims[0]) is not int
+            or type(dims[1]) is not int
+        ):
             raise ValueError(
                 'Invalid value of "dims" variable, [int, int] expected'
             )
 
-        if message and type(message) != str:
+        if message and type(message) is not str:
             raise TypeError(
                 'Invalid value of "message" variable, str expected'
             )
@@ -61,15 +65,19 @@ class ImageMaxDimValidator:
     _code = "image_max_dim_validator"
 
     def __init__(self, dims: tuple[int, int], message: str = None):
-        if type(dims) != tuple:
+        if type(dims) is not tuple:
             raise TypeError('Invalid type of "dims" variable, tuple expected')
 
-        if len(dims) != 2 or type(dims[0]) != int or type(dims[1]) != int:
+        if (
+            len(dims) != 2
+            or type(dims[0]) is not int
+            or type(dims[1]) is not int
+        ):
             raise ValueError(
                 'Invalid value of "dims" variable, [int, int] expected'
             )
 
-        if message and type(message) == str:
+        if message and type(message) is str:
             raise TypeError(
                 'Invalid value of "message" variable, str expected'
             )
@@ -98,10 +106,10 @@ class ImageSizeValidator:
     _code = "image_size_validator"
 
     def __init__(self, size: int, message: str = None):
-        if type(size) != int:
+        if type(size) is not int:
             raise TypeError('Invalid type of "size" variable, int expected')
 
-        if message and type(message) != str:
+        if message and type(message) is not str:
             raise TypeError(
                 'Invalid value of "message" variable, str expected'
             )

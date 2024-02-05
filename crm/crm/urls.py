@@ -6,10 +6,10 @@ from patients import views
 from crm import settings
 
 urlpatterns = [
-    path("__debug__/", include("debug_toolbar.urls")),
     path("admin/", admin.site.urls),
     path("", include("patients.urls")),
     path("users/", include("users.urls")),
+    path("hospitalizations/", include("hospitalizations.urls")),
 ]
 
 handler403 = views.forbidden
@@ -20,6 +20,7 @@ if settings.DEBUG:
     urlpatterns += static(
         settings.MEDIA_URL, document_root=settings.MEDIA_ROOT
     )
+    urlpatterns += [path("__debug__/", include("debug_toolbar.urls"))]
 
 admin.site.site_header = "Панель администрирования"
 admin.site.index_title = "CRM"

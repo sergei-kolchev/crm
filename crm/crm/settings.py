@@ -9,20 +9,21 @@ https://docs.djangoproject.com/en/5.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.0/ref/settings/
 """
-
+import os
 from pathlib import Path
+
+from dotenv import load_dotenv
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+load_dotenv(BASE_DIR / ".env")
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = (
-    "django-insecure-in)19v5&vos5$a3sl6i&4%*yu2n19gy*oxj+!7g7wl)jpwbk@h"
-)
+SECRET_KEY = os.getenv("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -42,8 +43,11 @@ INSTALLED_APPS = [
     "debug_toolbar",
     "easy_thumbnails",
     "htmx",
+    "file_downloader.apps.FileDownloaderConfig",
     "patients.apps.PatientsConfig",
     "users.apps.UsersConfig",
+    "hospitalizations.apps.HospitalizationsConfig",
+    'dynamic_breadcrumbs',
 ]
 
 MIDDLEWARE = [
@@ -54,8 +58,8 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
-    "htmx.middleware.HtmxMiddleware",
     "debug_toolbar.middleware.DebugToolbarMiddleware",
+    "htmx.middleware.HtmxMiddleware",
 ]
 
 ROOT_URLCONF = "crm.urls"
@@ -71,6 +75,8 @@ TEMPLATES = [
                 "django.template.context_processors.request",
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
+                "patients.context_processors.get_patients_context",
+                "dynamic_breadcrumbs.context_processors.breadcrumbs",
             ],
         },
     },
@@ -135,8 +141,51 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 MEDIA_ROOT = BASE_DIR / "media"
 MEDIA_URL = "/media/"
 
+# Logging
+
+DJANGO_LOG_LEVEL = os.getenv("DJANGO_LOG_LEVEL", "ERROR")
+
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "formatters": {
+        "colored": {
+            "()": "colorlog.ColoredFormatter",
+            "format": "%(log_color)s %(levelname)-8s %(asctime)s %(module)s %(reset)s %(blue)s%(message)s",
+            "datefmt": "%d-%m-%Y %H:%M:%S",
+        },
+        "file": {
+            "format": "%(asctime)s %(name)-12s %(levelname)-8s %(message)s",
+            "datefmt": "%d-%m-%Y %H:%M:%S",
+        },
+    },
+    "handlers": {
+        "console": {
+            "class": "logging.StreamHandler",
+            "formatter": "colored",
+        },
+        "file": {
+            "level": "DEBUG",
+            "class": "logging.FileHandler",
+            "formatter": "file",
+            "filename": "debug.log",
+        },
+    },
+    "root": {
+        "handlers": ["console"],
+        "level": "WARNING",
+    },
+    "loggers": {
+        "django": {
+            "handlers": ["console", "file"],
+            "level": DJANGO_LOG_LEVEL,
+            "propagate": False,
+        },
+    },
+}
+
 # CRM Settings
-PATIENTS_PAGINATE_BY = 5
+PATIENTS_PAGINATE_BY = 10
 
 LOGIN_REDIRECT_URL = "patients:index"
 LOGOUT_REDIRECT_URL = "users:login"
@@ -153,3 +202,15 @@ AVATAR_MAX_HEIGHT = 600
 AVATAR_MIN_HEIGHT = 100
 AVATAR_WIDTH = 150
 AVATAR_HEIGHT = 150
+
+# Celery
+BROKER_HOSTPORT = os.environ.get("BROKER_HOSTPORT")
+BROKER_PORT = os.environ.get("BROKER_PORT")
+RABBITMQ_DEFAULT_USER = os.environ.get("RABBITMQ_DEFAULT_USER")
+RABBITMQ_DEFAULT_PASS = os.environ.get("RABBITMQ_DEFAULT_PASS")
+
+
+# Breadcrumbs
+DYNAMIC_BREADCRUMBS_PATH_MAX_DEPTH = 10
+DYNAMIC_BREADCRUMBS_HOME_LABEL = 'Главная'
+DYNAMIC_BREADCRUMBS_SHOW_VERBOSE_NAME = True

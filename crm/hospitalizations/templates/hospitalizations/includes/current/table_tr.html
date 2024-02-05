@@ -1,0 +1,8 @@
+    <tr>
+        <td class="align-middle ps-2">{{ hospitalization.patient.surname }} {{ hospitalization.patient.name }} {{ hospitalization.patient.patronymic }} </td>
+        <td class="align-middle text-center"> {{ hospitalization.entry_date }} </td>
+        <td class="align-middle text-center"> {{ hospitalization.notes }} </td>
+        <td class="align-middle text-center">
+             {% include 'hospitalizations/includes/current/actions_buttons.html' %}
+        </td>
+    </tr>

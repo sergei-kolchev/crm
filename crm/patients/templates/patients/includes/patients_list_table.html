@@ -4,16 +4,22 @@
 <table  class="table table-bordered table-sm mt-4">
     <thead>
     <tr>
-        <th scope="col" style="width: 30%" class="text-center">
+        <th scope="col" style="width: 16%" class="text-center">
             {% include 'patients/includes/table_header_field.html' with name='ФИО' order='surname' disabled='disabled-button' %}
         </th>
         <th scope="col" style="width: 20%" class="text-center">
            {% include 'patients/includes/table_header_field.html' with name='Дата рождения' order='birthday' disabled='' %}
         </th>
-        <th scope="col" style="width: 15%" class="text-center">
+        <th scope="col" style="width: 18%" class="text-center">
+           {% include 'patients/includes/table_header_field.html' with name='Адрес регистрации' order='registration_address' disabled='' %}
+        </th>
+        <th scope="col" style="width: 18%" class="text-center">
+           {% include 'patients/includes/table_header_field.html' with name='Адрес проживания' order='residential_address' disabled='' %}
+        </th>
+        <th scope="col" style="width: 12%" class="text-center">
            {% include 'patients/includes/table_header_field.html' with name='Cостояние' order='active' disabled='' %}
         </th>
-        <th scope="col" style="width: 20%" class="text-center">Действия</th>
+        <th scope="col" style="width: 16%" class="text-center">Действия</th>
     </tr>
     </thead>
     <tbody>

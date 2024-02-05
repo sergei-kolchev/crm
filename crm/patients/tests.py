@@ -31,7 +31,7 @@ class GetPatientsTestCase(TestCase):
 
     user = {
         "username": "test",
-        "password": "Test12345678",
+        "password": "Test123456",
     }
 
     _relay_url = "htmx/relay.html"
@@ -158,7 +158,6 @@ class GetPatientsTestCase(TestCase):
                 response, bytes("Картотека пациентов", "utf-8")
             )
             self.assertContains(response, bytes(param["value"], "utf-8"))
-            self.assertContains(response, bytes("2 из 2", "utf-8"))
 
     def test_patients_page_htmx_pages_search_ok(self):
         params = [

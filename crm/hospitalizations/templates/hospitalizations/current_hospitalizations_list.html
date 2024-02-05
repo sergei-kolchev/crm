@@ -1,0 +1,78 @@
+{% load static %}
+{% if breadcrumbs %}
+<div class="container" hx-boost="true" hx-target="#main">
+    {% include "hospitalizations/breadcrumbs.html" with breadcrumbs=breadcrumbs%}
+</div>
+{% endif %}
+<h3 align="center">{{ title }}</h3>
+<a href="{% url 'hospitalizations:create' %}" hx-boost="true" hx-target="#main">Добавить госпитализацию</a>
+<div class="input-group mb-3 pt-4">
+  <label class="input-group-text" for="selected_doctor">Лечащий врач</label>
+  <select class="form-select"
+          id="selected_doctor"
+          name="selected_doctor"
+          hx-trigger="change"
+          hx-get="{% url 'hospitalizations:current' %}"
+          hx-target="#main"
+  >
+  {% if selected_doctor == 0 %}
+    <option value="0" selected>Все врачи</option>
+  {% else %}
+    <option value="0">Все врачи</option>
+  {% endif %}
+  {% for doctor in doctors %}
+      {% if doctor.username != 'root' %}
+        {% if doctor.pk == selected_doctor %}
+            <option value="{{ doctor.pk }}" selected>{{ doctor }}</option>
+        {% else %}
+            {{ selected_doctor }} {{ doctor.pk }}
+            <option value="{{ doctor.pk }}">{{ doctor }}</option>
+        {% endif %}
+      {% endif %}
+  {% endfor %}
+  </select>
+</div>
+
+{% if hospitalizations %}
+<table  class="table table-bordered table-sm mt-4" id="current">
+    <thead>
+    <tr>
+        <th scope="col" style="width: 30%" class="text-center">
+            {% include 'hospitalizations/includes/current/table_header_field.html' with name='ФИО' link_order='surname' selected_doctor=selected_doctor %}
+        </th>
+        <th scope="col" style="width: 20%" class="text-center">
+           {% include 'hospitalizations/includes/current/table_header_field.html' with name='Дата поступления' link_order='entry_date' selected_doctor=selected_doctor %}
+        </th>
+        <th scope="col" style="width: 20%" class="text-center">Заметки</th>
+        <th scope="col" style="width: 30%" class="text-center">Действия</th>
+    </tr>
+    </thead>
+    <tbody>
+        {% for hospitalization in hospitalizations %}
+            {% include 'hospitalizations/includes/current/table_tr.html' %}
+        {% endfor %}
+    </tbody>
+</table>
+<a href="{% url 'hospitalizations:create_current_docx' order direction %}?selected_doctor={{ selected_doctor }}"
+   hx-boost="true"
+   hx-target="#download"
+   hx-swap="innerHTML">
+    Сгенерировать список в docx
+</a> |
+<a href="{% url 'hospitalizations:create_current_by_doctor_docx' %}"
+   hx-boost="true"
+   hx-target="#download"
+   hx-swap="innerHTML">
+    Сгенерировать список в docx (сортировка по врачам)
+</a> |
+<a href="{% url 'hospitalizations:create_current_xlsx' order direction %}?selected_doctor={{ selected_doctor }}"
+   hx-boost="true"
+   hx-target="#download"
+   hx-swap="innerHTML">
+    Сгенерировать список в xlsx
+</a>
+<div id="download">
+</div>
+
+{% endif %}
+</div>

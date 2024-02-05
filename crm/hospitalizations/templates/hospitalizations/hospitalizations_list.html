@@ -1,0 +1,24 @@
+{% load static %}
+<h3 align="center">{{ title }}</h3>
+<p>Пациент: {{ patient.surname }} {{ patient.name }} {{ patient.patronymic }}</p>
+{% if hospitalizations %}
+<table class="table table-bordered table-sm mt-4">
+    <thead>
+    <tr>
+        <th scope="col" style="width: 20%" class="text-center">
+           {% include 'hospitalizations/includes/table_header_field.html' with name='Дата поступления' link_order='entry_date' %}
+        </th>
+        <th scope="col" style="width: 20%" class="text-center">
+           {% include 'hospitalizations/includes/table_header_field.html' with name='Дата выписки' link_order='leaving_date' %}
+        </th>
+        <th scope="col" style="width: 20%" class="text-center">Заметки</th>
+        <th scope="col" style="width: 20%" class="text-center">Действия</th>
+    </tr>
+    </thead>
+    <tbody>
+        {% for hospitalization in hospitalizations %}
+            {% include 'hospitalizations/includes/table_tr.html' %}
+        {% endfor %}
+    </tbody>
+</table>
+{% endif %}

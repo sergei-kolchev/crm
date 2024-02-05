@@ -216,9 +216,39 @@ def render_partial(
 
 
 class RenderPartial:
+    success_message = None  # TODO сделать вывод success_message
+    error_message = None
+
+    def dispatch(self, request, *args, **kwargs):
+        response = super().dispatch(request, *args, **kwargs)
+        if hasattr(response, "context_data"):
+            form = response.context_data.get("form")
+            if form and self.request.method == "POST":
+                if form.errors and self.error_message is not None:
+                    response = send_message(response, self.error_message)
+        return response
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         if not self.request.htmx:
             context["template_include"] = self.template_name
             self.template_name = "htmx/relay.html"
         return context
+
+
+# def form_valid(self, form):
+#    response = super().form_valid(form)
+#    print('ok!')
+#    response = send_message(
+#        response,
+#        self.error_message
+#    )
+#   return response
+
+# def form_invalid(self, form):
+#    response = super().form_invalid(form)
+#    response = send_message(
+#        response,
+#        self.error_message
+#    )
+#    return response

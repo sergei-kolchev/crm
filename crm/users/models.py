@@ -27,6 +27,14 @@ class User(AbstractUser):
             validators.RussianValidator(),
         ],
     )
+    patronymic = models.CharField(
+        _("patronymic"),
+        max_length=150,
+        blank=True,
+        validators=[
+            validators.RussianValidator(),
+        ],
+    )
     photo = ThumbnailerImageField(
         upload_to=validators.UploadToAndRename(
             os.path.join("users/", "avatars")
@@ -63,4 +71,4 @@ class User(AbstractUser):
     )
 
     def __str__(self):
-        return self.username
+        return f"{self.last_name} {self.first_name} {self.patronymic}"

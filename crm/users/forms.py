@@ -51,11 +51,13 @@ class ProfileUserForm(forms.ModelForm):
             "username",
             "email",
             "first_name",
+            "patronymic",
             "last_name",
             "date_birth",
         ]
         labels = {
             "first_name": "Имя",
+            "patronymic": "Отчество",
             "last_name": "Фамилия",
             "date_birth": "Дата рождения",
             "photo": "Аватарка",
@@ -63,6 +65,7 @@ class ProfileUserForm(forms.ModelForm):
         widgets = {
             "photo": forms.FileInput(attrs={"class": "form-control"}),
             "first_name": forms.TextInput(attrs={"class": "form-control"}),
+            "patronymic": forms.TextInput(attrs={"class": "form-control"}),
             "last_name": forms.TextInput(attrs={"class": "form-control"}),
         }
 

@@ -1,0 +1,23 @@
+<small>
+    {{ name }}
+    <a href=""
+       hx-get="{% url 'hospitalizations:hospitalizations' pk=hospitalizations.0.patient.id order=link_order direction='asc' %}"
+       hx-target="#main"
+       hx-swap="innerHTML">
+       {% if order == link_order and direction == 'asc' %}
+       <i class="table-icon bi bi-arrow-down-square ms-1 {{ link_order }}-asc disabled-button"></i>
+       {% else %}
+       <i class="table-icon bi bi-arrow-down-square ms-1 {{ link_order }}-asc"></i>
+       {% endif %}
+    </a>
+    <a href=""
+       hx-get="{% url 'hospitalizations:hospitalizations' pk=hospitalizations.0.patient.id order=link_order direction='desc' %}"
+       hx-target="#main"
+       hx-swap="innerHTML">
+       {% if order == link_order and direction == 'desc' %}
+       <i class="table-icon bi bi-arrow-up-square {{ link_order }}-desc disabled-button"></i>
+       {% else %}
+       <i class="table-icon bi bi-arrow-up-square {{ link_order }}-desc"></i>
+       {% endif %}
+    </a>
+</small>

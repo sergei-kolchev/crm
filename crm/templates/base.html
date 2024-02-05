@@ -12,9 +12,9 @@
     <link href="{% static 'images/favicon.png' %}" sizes="32x32" rel="shortcut icon"  type="image/png">
     <script src="{% static 'js/bootstrap.bundle.min.js' %}" defer></script>
     <script src="{% static 'js/htmx.min.js' %}" defer></script>
-    <script src="{% static 'js/patients.js' %}" defer></script>
     <script src="{% static 'js/_hyperscript.min.js' %}" defer></script>
     <script src="{% static 'js/sweetalert2@11.js' %}" defer></script>
+    <script src="{% static 'js/patients.js' %}" defer></script>
 </head>
 <body hx-boost="true" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'>
 
@@ -27,15 +27,12 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarText">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+      {% for menu in main_menu %}
         <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="{% url 'patients:index' %}" hx-boost="false">Главная</a>
+            <a href="{% url menu.url %}" hx-target="#main" hx-indicator="#spinner" hx-swap="innerHTML" hx-boost="true" class="nav-link">
+            {{ menu.name }}</a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link" href="{% url 'patients:about' %}" hx-boost="true" hx-target="#main" hx-swap="innerHTML">О проекте</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="{% url 'patients:contacts' %}" hx-boost="true" hx-target="#main" hx-swap="innerHTML">Контакты</a>
-        </li>
+      {% endfor %}
       </ul>
           <span class="navbar-text"><a  hx-boost="true" hx-target="#main" style="padding-right:10px;" href="{% url 'users:profile' %}">{{ user.username }}</a></span>
           <form hx-boost="false" action="{% url 'users:logout' %}" method="post">{% csrf_token %}<button class="btn btn-outline-light btn-sm" type="submit">Выйти</button></form>
@@ -62,7 +59,7 @@
             {% block content %}
             {% endblock %}
             {% include 'patients/includes/spinner.html' %}
-    </div>
+        </div>
 </div>
 </div>
 </body>

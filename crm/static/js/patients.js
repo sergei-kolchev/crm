@@ -5,6 +5,13 @@ function cngElementsAtr(cls, atr, val){
     }
 }
 
+function changeElementsStyle(cls, attribute, value){
+    var elems = document.getElementsByClassName(cls);
+    for (var i = 0; i < elems.length; i++) {
+        elems[i].style.setProperty(attribute, value);
+    }
+}
+
 document.body.addEventListener('htmx:afterRequest', (event) => {
     path_str = event.detail.pathInfo.requestPath;
     path_str = path_str.split('?')[0]
@@ -21,8 +28,9 @@ document.body.addEventListener('htmx:afterRequest', (event) => {
         }
     } else if (path_str.includes('detail/')) {
         cngElementsAtr('disbtn', 'disabled', false);
-    } else if (path_str.includes('patients/sort/')) {
+    } else if (path_str.includes('sort/')) {
             path_arr = path_str.split('/');
+            path_arr.pop()
             curr_class = path_arr.pop()
             curr_class = path_arr.pop() + '-' + curr_class
             document.getElementsByClassName('disabled-button')[0].classList.remove('disabled-button');
@@ -58,3 +66,32 @@ document.body.addEventListener('htmx:sendError', function(evt){
                timer:1500
             });
 })
+
+let counter = 0;
+
+function pollForResult(url) {
+    fetch(url).then(response => response.json())
+              .then(response => {
+                  if (response['task_status']) {
+                        task_status = response['task_status']
+                        if (task_status == 'SUCCESS') {
+                            changeElementsStyle('waiting', 'display', 'none');
+                            changeElementsStyle('finished', 'display', 'block');
+                            changeElementsStyle('downloading_error', 'display', 'none');
+                            document.body.dispatchEvent(new Event('"successMessage"'));
+                        } else {
+                            if (counter >= 5){
+                                changeElementsStyle('waiting', 'display', 'none');
+                                changeElementsStyle('finished', 'display', 'none');
+                                changeElementsStyle('downloading_error', 'display', 'block');
+                                document.body.dispatchEvent(new Event('"errorMessage"'));
+                            } else {
+                                counter += 1
+                                setTimeout(function(){
+                                    pollForResult(url);
+                                }, 3000);
+                            }
+                        }
+                  }
+    })
+}

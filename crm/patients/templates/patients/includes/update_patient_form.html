@@ -1,12 +1,21 @@
 <tr>
     <td class="align-middle ps-2">
-        <div class="input-group">
-            {{ form.surname }} {{ form.name }} {{ form.patronymic }}
-        </div>
+        {{ form.surname }} {{ form.name }} {{ form.patronymic }}
     </td>
     <td class="align-middle text-center">
         <div class="input-group">
         {{ form.birthday }}
+        </div>
+    </td>
+        <td class="align-middle text-center">
+        <div class="input-group">
+        {{ form.registration_address }}
+        </div>
+    </td>
+    </td>
+        <td class="align-middle text-center">
+        <div class="input-group">
+        {{ form.residential_address }}
         </div>
     </td>
     <td class="align-middle text-center">

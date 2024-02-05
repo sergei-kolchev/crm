@@ -16,7 +16,7 @@ class UsersLoginTestCase(TestCase):
     ]
     _user = {
         "username": "test",
-        "password": "Test12345678",
+        "password": "Test123456",
     }
 
     def test_login_user_ok(self):
@@ -49,16 +49,17 @@ class UsersProfileTestCase(TestCase):
 
     _user = {
         "username": "test",
-        "password": "Test12345678",
+        "password": "Test123456",
     }
 
     _relay_url = "htmx/relay.html"
 
     _data = {
         "photo": "",
-        "email": "test@mail.com",
+        "email": "panteleev@mail.com",
         "first_name": "новое имя",
         "last_name": "новая фамилия",
+        "patronymic": "новое отчество",
         "date_birth_day": "10",
         "date_birth_month": "10",
         "date_birth_year": "2001",
@@ -97,18 +98,23 @@ class UsersProfileTestCase(TestCase):
         )
 
         response = self.client.post(reverse("users:profile"), self._data)
+        response = self.client.get(response.url)
         self.assertEqual(response.status_code, HTTPStatus.OK)
         self.assertTemplateUsed("users/profile.html")
+
+        form = response.context.get("form")
+
         self.assertEqual(
-            response.context_data["form"].cleaned_data["last_name"],
+            form["last_name"].value(),
             self._data["last_name"],
         )
         self.assertEqual(
-            response.context_data["form"].cleaned_data["first_name"],
+            form["first_name"].value(),
             self._data["first_name"],
         )
         self.assertEqual(
-            response.context_data["form"].cleaned_data["photo"], None
+            form["photo"].value(),
+            self._data["photo"],
         )
 
         user = User.objects.get(username="test")

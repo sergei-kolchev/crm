@@ -1,0 +1,22 @@
+<!-- Кнопка "Выписать" -->
+<button class="disbtn table-button btn btn-outline-primary btn-sm me-2"
+        hx-get="{% url 'hospitalizations:leave' hospitalization.pk %}"
+        hx-target="#main">
+    Выписать
+</button>
+<!-- Кнопка "Редактировать" -->
+<button class="disbtn table-button btn btn-outline-primary btn-sm me-2"
+        hx-get="{% url 'hospitalizations:update_current' hospitalization.pk %}"
+        hx-target="#main">
+    Изменить
+</button>
+<!-- Кнопка "Удалить" -->
+<button class="disbtn table-button btn btn-outline-danger btn-sm"
+    hx-post="{% url 'hospitalizations:delete_current' hospitalization.pk %}"
+    hx-trigger='confirmed'
+    hx-target="#main"
+    _="on click
+        call Swal.fire({icon: 'warning', title: 'Внимание', text:'Вы точно хотите удалить госпитализацию для пациента &quot;{{ hospitalization.patient.surname }} {{ hospitalization.patient.name }} {{ hospitalization.patient.patronymic }}&quot;?', background: 'white', showCancelButton: true, confirmButtonColor: '#0d6efd', cancelButtonColor: '#dc3545', confirmButtonText: 'Да', cancelButtonText: 'Отмена'})
+        if result.isConfirmed trigger confirmed">
+  Удалить
+</button>
