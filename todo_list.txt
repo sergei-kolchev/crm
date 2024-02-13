@@ -71,3 +71,7 @@ guest
 guest
 
 https://pypi.org/project/django-dynamic-breadcrumbs/
+
+
+sqlitebrowser
+https://sqlitebrowser.org/dl/

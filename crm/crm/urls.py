@@ -9,6 +9,7 @@ urlpatterns = [
     path("", include("patients.urls")),
     path("users/", include("users.urls")),
     path("hospitalizations/", include("hospitalizations.urls")),
+    path("cards/", include("medical_cards.urls"))
 ]
 
 handler403 = views.forbidden

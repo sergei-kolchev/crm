@@ -1,6 +1,7 @@
 from django.contrib.auth import get_user_model
 from django.db import models
 from django.utils import timezone
+
 from patients.models import Patient
 
 """
@@ -120,60 +121,6 @@ class DisabilityCommissionDate(models.Model):
         return self.date.strftime("%d.%m.%Y")
 
 
-"""
-Медицинская карта
-"""
-
-
-class Diagnosis(models.Model):
-    diagnosis = models.TextField(
-        blank=True, unique=True, verbose_name="Диагноз"
-    )
-    icd_code = models.CharField(
-        max_length=10,
-        blank=True,
-        unique=True,
-        verbose_name="Код диагноза по МКБ-10",
-    )
-
-    class Meta:
-        verbose_name = "Диагноз"
-        verbose_name_plural = "Диагнозы"
-        ordering = ["diagnosis"]
-
-        indexes = [
-            models.Index(fields=["icd_code"]),
-            models.Index(fields=["diagnosis"]),
-        ]
-
-    def __str__(self):
-        return self.icd_code
-
-
-class MedicalCard(models.Model):
-    number = models.CharField(
-        max_length=15, blank=True, verbose_name="Номер медицинской карты"
-    )
-    diagnosis = models.ManyToManyField(
-        Diagnosis,
-        blank=True,
-        related_name="hospitalizations",
-        verbose_name="Диагнозы",
-    )
-
-    class Meta:
-        verbose_name = "Медицинская карта"
-        verbose_name_plural = "Медицинские карты"
-        ordering = ["number"]
-
-        indexes = [
-            models.Index(fields=["number"]),
-        ]
-
-    def __str__(self):
-        return self.number
-
-
 class NowInDepartmentManager(models.Manager):
     def get_queryset(self):
         return super().get_queryset().filter(leaving_date=None)
@@ -206,14 +153,6 @@ class Hospitalization(models.Model):
         default=None,
         null=True,
         verbose_name="Нетрудоспособность",
-    )
-    medical_card = models.OneToOneField(
-        MedicalCard,
-        on_delete=models.PROTECT,
-        related_name="hospitalization",
-        verbose_name="Медицинская карта",
-        null=True,
-        default=None,
     )
     notes = models.TextField(blank=True, verbose_name="Заметки")
     time_create = models.DateTimeField(
