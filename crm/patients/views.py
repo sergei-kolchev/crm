@@ -6,6 +6,7 @@ from django.shortcuts import get_object_or_404, render
 from django.urls import exceptions
 from django.views.decorators.http import require_GET, require_http_methods
 from htmx.http import HtmxHttpRequest, render_partial, require_HTMX
+
 from utils.utils import login_required
 
 from . import service

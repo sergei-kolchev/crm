@@ -2,12 +2,11 @@ import logging
 from pathlib import PosixPath
 
 from celery.result import AsyncResult
+from crm import settings
 from django.http import HttpResponse, JsonResponse
 from django.urls import reverse
 from django.views import View
 from django.views.generic import TemplateView
-
-from crm import settings
 
 logger = logging.getLogger("django.console")
 
@@ -72,14 +71,19 @@ class CreateFileView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        result = self.get_task().delay(
-            str(self.template_file_path),
-            self.get_temp_file_extension(),
-            **self.get_task_kwargs(),
-        )
-        logger.info(f'{__name__} created task "{result}"')
-        context["task_id"] = result
-        context["download_url"] = self.get_download_url(result)
+        try:
+            result = self.get_task().delay(
+                str(self.template_file_path),
+                self.get_temp_file_extension(),
+                **self.get_task_kwargs(),
+            )
+        except Exception as ex:
+            logger.error(f"{__name__} connection refused {ex}")
+            context["error"] = "Server unavailable"
+        else:
+            logger.info(f'{__name__} created task "{result}"')
+            context["task_id"] = result
+            context["download_url"] = self.get_download_url(result)
         return context
 
 

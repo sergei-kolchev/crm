@@ -1,0 +1,5 @@
+<button class="disbtn table-button btn btn-outline-primary btn-sm me-2"
+        hx-get="{% url button.view_name button.pk %}"
+        hx-target="#main">
+    {{ button.name }}
+</button>

@@ -1,5 +1,6 @@
 from django.urls import path
 from hospitalizations import views
+
 from utils import views as files_views
 
 app_name = "hospitalizations"

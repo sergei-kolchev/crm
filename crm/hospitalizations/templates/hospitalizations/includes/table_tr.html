@@ -1,8 +1,0 @@
-    <tr>
-        <td class="align-middle text-center">{{ hospitalization.entry_date }} </td>
-        <td class="align-middle text-center"> {% if hospitalization.leaving_date %}{{ hospitalization.leaving_date }}{% else %} находится на лечении {% endif %}</td>
-        <td class="align-middle text-center"></td>
-        <td class="align-middle text-center">
-             {% include 'hospitalizations/includes/actions_buttons.html' %}
-        </td>
-    </tr>

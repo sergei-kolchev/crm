@@ -5,6 +5,8 @@ from django.views.generic import (CreateView, DeleteView, ListView,
 from file_downloader.views import CreateFileDocxView
 from htmx.http import RenderPartial
 from patients import service as patient_service
+from tables.views import TableInlineFormView, TableRowView, TableView
+
 from utils.mixins import DataMixin
 from utils.utils import LoginRequiredMixin
 
@@ -12,13 +14,16 @@ from . import service, tasks
 from .forms import (CreateHospitalizationForm, LeaveForm,
                     UpdateHospitalizationForm, UpdateHospitalizationInlineForm)
 from .models import Hospitalization
+from .tables import CurrentHospitalizationsTable, HospitalizationsTable
 
 
-class HospitalizationsList(LoginRequiredMixin, DataMixin, ListView):
+class HospitalizationsList(LoginRequiredMixin, DataMixin, TableView, ListView):
     model = Hospitalization
     template_name = "hospitalizations/hospitalizations_list.html"
     context_object_name = "hospitalizations"
     title_page = "Список госпитализаций"
+    table_view_name = "hospitalizations:hospitalizations"
+    table_schema = HospitalizationsTable
 
     def get_queryset(self):
         return service.get_all(patient_pk=self.kwargs["pk"], **self.kwargs)
@@ -33,18 +38,22 @@ class HospitalizationsList(LoginRequiredMixin, DataMixin, ListView):
         )
 
 
-class CurrentHospitalizationsList(LoginRequiredMixin, DataMixin, ListView):
+class CurrentHospitalizationsList(
+    LoginRequiredMixin, DataMixin, TableView, ListView
+):
     model = Hospitalization
     template_name = "hospitalizations/current_hospitalizations_list.html"
     context_object_name = "hospitalizations"
     selected_doctor = 0
     title_page = "Находящиеся на лечении"
+    table_view_name = "hospitalizations:current"
+    table_schema = CurrentHospitalizationsTable
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         return self.get_mixin_context(
             context,
-            order=self.kwargs.get("order", "surname"),
+            order=self.kwargs.get("order", "patient"),
             direction=self.kwargs.get("direction", "asc"),
             selected_doctor=self.selected_doctor,
             doctors=get_user_model().objects.all(),
@@ -76,9 +85,12 @@ class UpdateCurrentHospitalization(LoginRequiredMixin, DataMixin, UpdateView):
         return service.get(pk=self.kwargs["pk"])
 
 
-class UpdateHospitalization(LoginRequiredMixin, DataMixin, UpdateView):
+class UpdateHospitalization(
+    LoginRequiredMixin, DataMixin, TableInlineFormView, UpdateView
+):
     form_class = UpdateHospitalizationInlineForm
-    template_name = "hospitalizations/includes/update_hospitalization.html"
+    table_row_update_view = "hospitalizations:update"
+    table_row_detail_view = "hospitalizations:detail"
 
     def get_queryset(self):
         return service.get(pk=self.kwargs["pk"])
@@ -129,15 +141,13 @@ class Leave(LoginRequiredMixin, DataMixin, UpdateView):
         return service.get(pk=self.kwargs["pk"])
 
 
-class DetailView(LoginRequiredMixin, DataMixin, TemplateView):
-    template_name = "hospitalizations/includes/table_tr.html"
+class DetailView(LoginRequiredMixin, DataMixin, TableRowView, TemplateView):
     allow_empty = False
+    table_schema = HospitalizationsTable
+    table_view_name = "hospitalizations:hospitalizations"
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        return self.get_mixin_context(
-            context, hospitalization=service.get_one(pk=self.kwargs["pk"])
-        )
+    def get_queryset(self):
+        return service.get_one(pk=self.kwargs["pk"])
 
 
 class CurrentHospitalizationsCreateDocxView(

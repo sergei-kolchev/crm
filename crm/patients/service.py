@@ -1,9 +1,8 @@
 from typing import Any
 
+from crm import settings
 from django.core.paginator import Page, Paginator
 from django.shortcuts import get_object_or_404
-
-from crm import settings
 
 from .models import Patient
 from .utils import get_filtering_query

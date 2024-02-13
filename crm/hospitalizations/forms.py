@@ -104,9 +104,11 @@ class LeaveForm(forms.ModelForm):
 
     def clean(self):
         cleaned_data = super().clean()
-        if self.instance.entry_date > cleaned_data['leaving_date']:
+        if self.instance.entry_date > cleaned_data["leaving_date"]:
             raise forms.ValidationError(
-                f"Дата поступления {self.instance.entry_date.strftime('%d.%m.%Y %H:%M')} не может быть больше даты выписки"
+                "Дата поступления {} не может быть больше даты выписки".format(
+                    self.instance.entry_date.strftime("%d.%m.%Y %H:%M")
+                )
             )
         return cleaned_data
 
@@ -114,7 +116,7 @@ class LeaveForm(forms.ModelForm):
 class UpdateHospitalizationInlineForm(forms.ModelForm):
     class Meta:
         model = Hospitalization
-        fields = ["entry_date", "leaving_date", "patient", "notes"]
+        fields = ["entry_date", "leaving_date", "notes"]
 
         widgets = {
             "entry_date": forms.DateTimeInput(
@@ -125,7 +127,6 @@ class UpdateHospitalizationInlineForm(forms.ModelForm):
                 attrs={"class": "form-control", "type": "datetime-local"},
                 format="%Y-%m-%d %H:%M",
             ),
-            "patient": forms.HiddenInput(),
             "notes": forms.Textarea(
                 attrs={"class": "form-control", "placeholder": "Заметки"}
             ),
@@ -133,13 +134,11 @@ class UpdateHospitalizationInlineForm(forms.ModelForm):
 
     def clean(self):
         cleaned_data = super().clean()
-        if "patient" in cleaned_data and "entry_date" in cleaned_data:
-            hospitalizations = (
-                Hospitalization.objects.filter(
-                    patient__pk=cleaned_data["patient"].pk
-                )
-                .exclude(id=self.instance.id)
-                .select_related("patient")
+        if "entry_date" in cleaned_data:
+            # TODO говнокод
+            hospitalization = Hospitalization.objects.get(pk=self.instance.pk)
+            h = hospitalization.patient.hospitalizations.exclude(
+                pk=self.instance.pk
             )
-            validate_hospitalization_fields(cleaned_data, hospitalizations)
+            validate_hospitalization_fields(cleaned_data, h)
         return cleaned_data

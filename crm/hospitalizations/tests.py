@@ -3,6 +3,7 @@ from datetime import datetime
 from http import HTTPStatus
 from unittest.mock import Mock, patch
 
+import file_downloader
 from django import forms as django_forms
 from django.contrib.auth import get_user_model
 from django.http import HttpResponse
@@ -172,9 +173,11 @@ class HospitalizationViewTests(AuthorizedUserTestCase):
 
     def test_update_hospitalization_ok(self):
         """Тест успешного обновления госпитализации"""
+        hosp = self._hospitalization.copy()
+        hosp["notes"] = "test"
         response = self.client.post(
             reverse("hospitalizations:update", kwargs={"pk": 4}),
-            self._hospitalization,
+            hosp,
         )
         self.assertEqual(response.status_code, HTTPStatus.FOUND)
         response = self.client.get(response.url)
@@ -182,8 +185,8 @@ class HospitalizationViewTests(AuthorizedUserTestCase):
         response = self.client.get(reverse("hospitalizations:current"))
         self.assertEqual(response.status_code, HTTPStatus.OK)
         content = response.content.decode()
-        self.assertIn("4 января 2024 г. 17:27", content)
-        self.assertIn("Иванов Иван Иванович", content)
+        self.assertIn("4 января 2024 г.", content)
+        self.assertIn("test", content)
 
     def test_update_hospitalization_error(self):
         """Тест ошибки при обновлении госпитализации"""
@@ -239,7 +242,7 @@ class HospitalizationViewTests(AuthorizedUserTestCase):
     def test_leave_ok(self):
         """Тест успешной выписки пациента"""
         path = reverse("hospitalizations:leave", kwargs={"pk": 5})
-        response = self.client.post(path)
+        response = self.client.post(path, {"leaving_date": "2024-02-11"})
         self.assertRedirects(response, reverse("hospitalizations:current"))
         content = self.client.get(response.url)
         self.assertNotIn("Иванов Михаил Сидорович", content)
@@ -294,7 +297,7 @@ class HospitalizationTemplateTests(AuthorizedUserTestCase):
             (
                 "hospitalizations:update",
                 {"pk": 1},
-                "hospitalizations/includes/update_hospitalization.html",
+                "tables/update_form_tr.html",
             ),
             (
                 "hospitalizations:update_current",
@@ -314,7 +317,7 @@ class HospitalizationTemplateTests(AuthorizedUserTestCase):
             (
                 "hospitalizations:detail",
                 {"pk": 1},
-                "hospitalizations/includes/table_tr.html",
+                "tables/tr.html",
             ),
         ]
     )
@@ -351,7 +354,7 @@ class HospitalizationTemplateTests(AuthorizedUserTestCase):
             (
                 "hospitalizations:update",
                 {"pk": 1},
-                "hospitalizations/includes/update_hospitalization.html",
+                "tables/update_form_tr.html",
             ),
             (
                 "hospitalizations:update_current",
@@ -371,7 +374,7 @@ class HospitalizationTemplateTests(AuthorizedUserTestCase):
             (
                 "hospitalizations:detail",
                 {"pk": 1},
-                "hospitalizations/includes/table_tr.html",
+                "tables/tr.html",
             ),
         ]
     )
@@ -389,18 +392,18 @@ class HospitalizationTemplateTests(AuthorizedUserTestCase):
                 "hospitalizations:current",
                 None,
                 [
-                    'surname-asc disabled-button">',
-                    'surname-desc">',
+                    'patient-asc disabled-button">',
+                    'patient-desc">',
                     'entry_date-asc">',
                     'entry_date-desc">',
                 ],
             ),
             (
                 "hospitalizations:current",
-                {"order": "surname", "direction": "desc"},
+                {"order": "patient", "direction": "desc"},
                 [
-                    'surname-asc">',
-                    'surname-desc disabled-button">',
+                    'patient-asc">',
+                    'patient-desc disabled-button">',
                     'entry_date-asc">',
                     'entry_date-desc">',
                 ],
@@ -409,8 +412,8 @@ class HospitalizationTemplateTests(AuthorizedUserTestCase):
                 "hospitalizations:current",
                 {"order": "entry_date", "direction": "desc"},
                 [
-                    'surname-asc">',
-                    'surname-desc">',
+                    'patient-asc">',
+                    'patient-desc">',
                     'entry_date-asc">',
                     'entry_date-desc disabled-button">',
                 ],
@@ -452,18 +455,18 @@ class HospitalizationTemplateTests(AuthorizedUserTestCase):
                 "hospitalizations:current",
                 None,
                 [
-                    'surname-asc disabled-button">',
-                    'surname-desc">',
+                    'patient-asc disabled-button">',
+                    'patient-desc">',
                     'entry_date-asc">',
                     'entry_date-desc">',
                 ],
             ),
             (
                 "hospitalizations:current",
-                {"order": "surname", "direction": "desc"},
+                {"order": "patient", "direction": "desc"},
                 [
-                    'surname-asc">',
-                    'surname-desc disabled-button">',
+                    'patient-asc">',
+                    'patient-desc disabled-button">',
                     'entry_date-asc">',
                     'entry_date-desc">',
                 ],
@@ -472,8 +475,8 @@ class HospitalizationTemplateTests(AuthorizedUserTestCase):
                 "hospitalizations:current",
                 {"order": "entry_date", "direction": "desc"},
                 [
-                    'surname-asc">',
-                    'surname-desc">',
+                    'patient-asc">',
+                    'patient-desc">',
                     'entry_date-asc">',
                     'entry_date-desc disabled-button">',
                 ],
@@ -611,7 +614,9 @@ class HospitalizationFormTests(AuthorizedUserTestCase):
                 "doctor": 3,
             }
         )
+        form.instance.pk = 2
         self.assertFalse(form.is_valid())
+
         self.assertIn(
             "Для пациента уже существует госпитализация с 19.12.2023 09:12 по 03.01.2024 01:01",
             form.errors["__all__"],
@@ -942,39 +947,41 @@ class HospitalizationFilesViewTests(AuthorizedUserTestCase):
         self, viewname, kwargs, selected_doctor
     ):
         """Тест успешного создания файла с текущими госпитализациями"""
-        if selected_doctor:
-            path = (
-                reverse(viewname, kwargs=kwargs)
-                + "?selected_doctor="
-                + str(selected_doctor)
-            )
-        else:
-            path = reverse(viewname, kwargs=kwargs)
-        response = self.client.get(path)
 
-        self.assertEqual(response.status_code, HTTPStatus.OK)
-        self.assertIn("Создание документа", response.content.decode())
+        with patch.object(file_downloader.views.CreateFileView, "get_task"):
+            if selected_doctor:
+                path = (
+                    reverse(viewname, kwargs=kwargs)
+                    + "?selected_doctor="
+                    + str(selected_doctor)
+                )
+            else:
+                path = reverse(viewname, kwargs=kwargs)
+            response = self.client.get(path)
 
-        task_id = response.context_data["task_id"]
+            self.assertEqual(response.status_code, HTTPStatus.OK)
+            self.assertIn("Создание документа", response.content.decode())
 
-        response = self.client.get(
-            reverse(
-                "hospitalizations:task_status", kwargs={"task_id": task_id}
-            )
-        )
-        self.assertEqual(response.status_code, HTTPStatus.OK)
-        self.assertIn("PENDING", response.content.decode())
+            task_id = response.context_data["task_id"]
 
-        with patch("file_downloader.views.DownloadFileView.get") as mock:
-            mock.return_value = HttpResponse("OK")
             response = self.client.get(
                 reverse(
-                    "hospitalizations:download_current_docx",
-                    kwargs={"task_id": "ID"},
+                    "hospitalizations:task_status", kwargs={"task_id": task_id}
                 )
             )
             self.assertEqual(response.status_code, HTTPStatus.OK)
-            self.assertEqual(response.content.decode(), "OK")
+            self.assertIn("PENDING", response.content.decode())
+
+            with patch("file_downloader.views.DownloadFileView.get") as mock:
+                mock.return_value = HttpResponse("OK")
+                response = self.client.get(
+                    reverse(
+                        "hospitalizations:download_current_docx",
+                        kwargs={"task_id": "ID"},
+                    )
+                )
+                self.assertEqual(response.status_code, HTTPStatus.OK)
+                self.assertEqual(response.content.decode(), "OK")
 
 
 class HospitalizationFilesViewNonAuthorizedTests(TestCase):

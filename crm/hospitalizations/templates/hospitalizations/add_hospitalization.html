@@ -1,10 +1,5 @@
-{% block content %}
-{% if breadcrumbs %}
-<div class="container" hx-boost="false">
-    {% include "hospitalizations/breadcrumbs.html" with breadcrumbs=breadcrumbs %}
-</div>
-{% endif %}
-<h3 align="center">{{ title }}</h3>
+{% extends 'patients/partial_base.html' %}
+{% block partial_content %}
 <form>
     <div class="container col-md-7 col-md-offset-3 text-center">
     {% csrf_token %}

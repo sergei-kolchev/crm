@@ -1,0 +1,19 @@
+<tr>
+    {% for field in object %}
+        {% if field.visible %}
+            <td {{ field.attrs|safe }} >
+            {% if field.cell_type == 'buttons' %}
+                {% for button in field.buttons %}
+                     {% include button.template_name %}
+                {% endfor %}
+            {% else %}
+                {% if field.url %}
+                    <a href="{{ field.url }} ">{{ field.value }}</a>
+                {% else %}
+                    {{ field.value }}
+                {% endif %}
+            {% endif %}
+            </td>
+        {% endif %}
+    {% endfor %}
+</tr>

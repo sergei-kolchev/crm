@@ -1,7 +1,6 @@
 {% extends 'patients/partial_base.html' %}
 {% block partial_content %}
 {% include 'patients/includes/add_patient_form.html' %}
-
 {% url 'patients:search' as path %}
 {% include 'patients/includes/search_form.html' with path=path placeholder="Фамилия Имя Отчество" target="#search_result" %}
 {% include 'patients/includes/patients_list_table.html' %}

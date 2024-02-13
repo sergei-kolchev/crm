@@ -44,10 +44,11 @@ INSTALLED_APPS = [
     "easy_thumbnails",
     "htmx",
     "file_downloader.apps.FileDownloaderConfig",
+    "tables.apps.TablesConfig",
     "patients.apps.PatientsConfig",
     "users.apps.UsersConfig",
     "hospitalizations.apps.HospitalizationsConfig",
-    'dynamic_breadcrumbs',
+    "dynamic_breadcrumbs.apps.BreadcrumbingConfig",
 ]
 
 MIDDLEWARE = [
@@ -212,5 +213,5 @@ RABBITMQ_DEFAULT_PASS = os.environ.get("RABBITMQ_DEFAULT_PASS")
 
 # Breadcrumbs
 DYNAMIC_BREADCRUMBS_PATH_MAX_DEPTH = 10
-DYNAMIC_BREADCRUMBS_HOME_LABEL = 'Главная'
+DYNAMIC_BREADCRUMBS_HOME_LABEL = "Главная"
 DYNAMIC_BREADCRUMBS_SHOW_VERBOSE_NAME = True

@@ -1,7 +1,6 @@
 import os
 
 from celery import Celery
-
 from crm import settings
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "crm.settings")

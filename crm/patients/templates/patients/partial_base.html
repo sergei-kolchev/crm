@@ -1,6 +1,9 @@
-<h3>{{ title }}</h3>
-{% block breadcrumbs %}
-{% endblock %}
+{% if breadcrumbs %}
+<div class="container" hx-boost="true" hx-target="#main">
+    {% include "breadcrumbs/breadcrumbs.html" with breadcrumbs=breadcrumbs %}
+</div>
+{% endif %}
+<h3 align="center">{{ title }}</h3>
 {% block partial_content %}
 {% endblock %}
 {% include 'patients/includes/spinner.html' %}

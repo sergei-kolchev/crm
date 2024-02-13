@@ -1,30 +1,20 @@
 <tr>
+{% for f in form%}
+    {% if f %}
     <td class="align-middle ps-2 align-text-top">
         <div class="input-group">
-            {{ form.id }}
-            {{ form.patient }}
-            {{ form.entry_date }}
+        {{ f }}
         </div>
-        <div class="form-error">{{ form.entry_date.errors }}</div>
-        <div class="form-error">{{ form.non_field_errors }}</div>
+        <div class="form-error">{{ f.errors }}</div>
     </td>
-    <td class="align-middle text-center align-text-top">
-        <div class="input-group">
-        {{ form.leaving_date }}
-        </div>
-        <div class="form-error">{{ form.leaving_date.errors }}</div>
-    </td>
-    <td class="align-middle text-center align-text-top">
-        <div class="input-group">
-        {{ form.notes }}
-        </div>
-        <div class="form-error">{{ form.leaving_date.errors }}</div>
-    </td>
+    {% endif %}
+{% endfor %}
+
     <td class="align-middle text-center align-text-top">
         <!-- Кнопка "Сохранить" -->
         <button type="submit"
                 class="table-button btn btn-success btn-sm me-2"
-                hx-post="{% url 'hospitalizations:update' hospitalization.id %}"
+                hx-post="{% url update_view obj.pk %}"
                 hx-target="closest tr"
                 hx-swap="outerHTML"
                 hx-trigger="confirmed"
@@ -36,10 +26,16 @@
         </button>
         <!-- Кнопка "Отменить" -->
         <button class="table-button btn btn-warning btn-sm me-2"
-                hx-get="{% url 'hospitalizations:detail' hospitalization.id %}"
+                hx-get="{% url detail_view obj.pk %}"
                 hx-target="closest tr"
                 hx-swap="outerHTML">
             Отменить
         </button>
+        {% if form.non_field_errors %}
+        <hr>
+        <div class="form-error">
+            {{ form.non_field_errors }}
+        </div><hr>
+        {% endif %}
     </td>
 </tr>
