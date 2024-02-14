@@ -1,4 +1,13 @@
 {% extends 'patients/partial_base.html' %}
 {% block partial_content %}
+<select name="patient" id="patient" hx-get="/patients" hx-trigger="load">
+    <option value="none">original</option>
+</select>
+<select name="hospitalization" id="hospitalization"
+    hx-get="/patients"
+    hx-trigger="changed from:#patient"
+    hx-include="#patient">
+    <option value="none">original</option>
+</select>
 {{ form.as_p }}
 {% endblock %}
