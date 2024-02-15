@@ -30,7 +30,7 @@ class Diagnosis(models.Model):
 
 class MedicalCard(models.Model):
     number = models.CharField(
-        max_length=15, blank=True, verbose_name="Номер медицинской карты"
+        max_length=15, verbose_name="Номер медицинской карты"
     )
     diagnosis = models.ManyToManyField(
         Diagnosis,

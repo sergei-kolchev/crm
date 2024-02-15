@@ -5,6 +5,8 @@ from django.http import HttpRequest, HttpResponse
 from django.shortcuts import get_object_or_404, render
 from django.urls import exceptions
 from django.views.decorators.http import require_GET, require_http_methods
+
+from hospitalizations.models import Hospitalization
 from htmx.http import HtmxHttpRequest, render_partial, require_HTMX
 
 from utils.utils import login_required
@@ -171,6 +173,22 @@ def update_patient_status(request: HtmxHttpRequest, pk: int):
             "patient": patient,
         },
     )
+
+
+@login_required
+@require_HTMX("patients:index")
+@require_GET
+def patients_select(request):
+    if 'patient' in request.GET and request.GET['patient'] not in ['none', '']:
+        lst = Hospitalization.objects.filter(
+            patient__pk=request.GET.get('patient')
+        )
+    else:
+        lst = Patient.objects.all()
+    res = []
+    for item in lst:
+        res.append(f"<option value='{item.pk}'>{item}</option>")
+    return HttpResponse(res)
 
 
 @login_required

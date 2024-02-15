@@ -194,4 +194,7 @@ class Hospitalization(models.Model):
         ]
 
     def __str__(self):
-        return "{}-{}".format(self.entry_date, self.leaving_date)
+        return "{} - {}".format(
+            self.entry_date.strftime("%d.%m.%Y"),
+            self.leaving_date.strftime("%d.%m.%Y") if self.leaving_date else 'находится в отделении'
+        )

@@ -15,4 +15,15 @@ class CreateMedicalCardForm(forms.ModelForm):
 
     class Meta:
         model = MedicalCard
-        fields = ('number', 'diagnosis', 'hospitalization', 'custom_diagnosis')
+        fields = ('number', 'diagnosis', 'custom_diagnosis', 'hospitalization')
+
+        widgets = {
+            "number": forms.TextInput(attrs={"class": "form-control"}),
+            "diagnosis": forms.Select(attrs={"class": "form-select"}),
+            "custom_diagnosis": forms.Textarea(attrs={"class": "form-control", "rows": 4})
+        }
+
+    def clean(self):
+        cleaned_data = super().clean()
+        print(cleaned_data)
+        return cleaned_data

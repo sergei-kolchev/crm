@@ -24,4 +24,5 @@ urlpatterns = [
         name="patients",
     ),
     path("patients/search/", views.search, name="search"),
+    path("patients/html/select", views.patients_select, name="patients_select"),
 ]
