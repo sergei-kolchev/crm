@@ -14,6 +14,7 @@ class CreateHospitalizationForm(forms.ModelForm):
             "patient",
             "doctor",
             "number",
+            "involuntary",
             "diagnosis",
             "custom_diagnosis",
             "notes",
@@ -36,6 +37,7 @@ class CreateHospitalizationForm(forms.ModelForm):
             "doctor": forms.Select(attrs={"class": "form-select", "size": 4}),
             "number": forms.TextInput(attrs={"class": "form-control"}),
             "diagnosis": forms.Select(attrs={"class": "form-select"}),
+            "involuntary": forms.Select(attrs={"class": "form-select"}),
             "custom_diagnosis": forms.Textarea(
                 attrs={"class": "form-control", "rows": 4}
             ),
@@ -60,6 +62,7 @@ class UpdateHospitalizationForm(forms.ModelForm):
             "patient",
             "doctor",
             "number",
+            "involuntary",
             "diagnosis",
             "custom_diagnosis",
             "notes",
@@ -83,6 +86,7 @@ class UpdateHospitalizationForm(forms.ModelForm):
             "doctor": forms.Select(attrs={"class": "form-select", "size": 4}),
             "number": forms.TextInput(attrs={"class": "form-control"}),
             "diagnosis": forms.Select(attrs={"class": "form-select"}),
+            "involuntary": forms.Select(attrs={"class": "form-select"}),
             "custom_diagnosis": forms.Textarea(
                 attrs={"class": "form-control", "rows": 4}
             ),

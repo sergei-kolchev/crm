@@ -52,6 +52,7 @@ class HospitalizationViewTests(AuthorizedUserTestCase):
         "time_update": "2024-01-07T17:28:14.098Z",
         "number": 1,
         "diagnosis": 1,
+        "involuntary": "False",
         "patient": 1,
         "doctor": 3,
     }
