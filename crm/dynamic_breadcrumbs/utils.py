@@ -138,7 +138,7 @@ class BreadcrumbsItem:
         if self.position == 2 and app_settings.SHOW_VERBOSE_NAME:
             try:
                 return apps.get_app_config(self.name_raw).verbose_name
-            except Exception:
+            except Exception:  # nosec
                 pass
         return self.name_raw
 

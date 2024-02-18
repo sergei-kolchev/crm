@@ -12,11 +12,6 @@ def get_patients_context(request):
                 "image_url": "images/noun-medical-1730855.png",
             },
             {
-                "url": "medical_cards:cards",
-                "name": "Медицинские карты",
-                "image_url": "images/noun-medical-prescription-2324570.png",
-            },
-            {
                 "url": "patients:patients",
                 "name": "Журналы",
                 "image_url": "images/noun-documentation-2912476.png",

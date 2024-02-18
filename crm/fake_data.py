@@ -5,7 +5,8 @@ from datetime import datetime, timedelta
 from django.contrib.auth import get_user_model
 from django.db.models import Q
 from faker import Faker
-from hospitalizations.models import Hospitalization
+
+from hospitalizations.models import Diagnosis, Hospitalization
 from patients.models import Patient
 
 warnings.filterwarnings("ignore")
@@ -58,6 +59,8 @@ fios = set(
     for n in range(1000)
 )
 
+diagnosis = Diagnosis.objects.all()
+
 for fio in fios:
     data = fio.split()
     if len(data) == 3:
@@ -66,6 +69,8 @@ for fio in fios:
             patronymic=data[2],
             surname=data[0],
             birthday=fake.date_of_birth(minimum_age=18, maximum_age=70),
+            registration_address=fake.address(),
+            residential_address=fake.address(),
             active=True,
         )
         p.save()
@@ -79,11 +84,7 @@ for fio in fios:
                 leaving_date=date[1],
                 patient=p,
                 doctor=random.choice(doctors),
+                diagnosis=random.choice(diagnosis),
+                number=random.randint(1, 99999),
             )
             h.save()
-
-# test1
-# Test123456
-
-# test2
-# Test123456

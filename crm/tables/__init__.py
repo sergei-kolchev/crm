@@ -1,5 +1,9 @@
-from tables.builders import (ObjectFactory, TableBodyCellBuilder,
-                             TableButtonsCellBuilder, TableHeaderCellBuilder)
+from tables.builders import (
+    ObjectFactory,
+    TableBodyCellBuilder,
+    TableButtonsCellBuilder,
+    TableHeaderCellBuilder,
+)
 
 __all__ = ["factory"]
 

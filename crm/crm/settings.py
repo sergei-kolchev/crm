@@ -47,7 +47,6 @@ INSTALLED_APPS = [
     "tables.apps.TablesConfig",
     "patients.apps.PatientsConfig",
     "users.apps.UsersConfig",
-    "medical_cards.apps.MedicalCardsConfig",
     "hospitalizations.apps.HospitalizationsConfig",
     "dynamic_breadcrumbs.apps.BreadcrumbingConfig",
 ]

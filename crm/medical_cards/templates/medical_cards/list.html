@@ -1,7 +1,0 @@
-{% extends 'patients/partial_base.html' %}
-{% block partial_content %}
-<a href="{% url 'medical_cards:create' %}" hx-target="#main" hx-indicator="#spinner" hx-swap="innerHTML">Добавить медицинскую карту</a>
-{% if table.header %}
-    {% include "tables/table.html" %}
-{% endif %}
-{% endblock %}

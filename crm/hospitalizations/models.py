@@ -121,6 +121,28 @@ class DisabilityCommissionDate(models.Model):
         return self.date.strftime("%d.%m.%Y")
 
 
+class Diagnosis(models.Model):
+    diagnosis = models.TextField(unique=True, verbose_name="Диагноз")
+    icd_code = models.CharField(
+        max_length=10,
+        unique=True,
+        verbose_name="Код диагноза по МКБ-10",
+    )
+
+    class Meta:
+        verbose_name = "Диагноз"
+        verbose_name_plural = "Диагнозы"
+        ordering = ["diagnosis"]
+
+        indexes = [
+            models.Index(fields=["icd_code"]),
+            models.Index(fields=["diagnosis"]),
+        ]
+
+    def __str__(self):
+        return self.icd_code
+
+
 class NowInDepartmentManager(models.Manager):
     def get_queryset(self):
         return super().get_queryset().filter(leaving_date=None)
@@ -176,6 +198,17 @@ class Hospitalization(models.Model):
         default=None,
         verbose_name="Лечащий врач",
     )
+    number = models.CharField(
+        max_length=15, verbose_name="Номер медицинской карты"
+    )
+    diagnosis = models.ForeignKey(
+        Diagnosis,
+        on_delete=models.SET_NULL,
+        null=True,
+        related_name="medical_cards",
+        verbose_name="Диагноз",
+    )
+    custom_diagnosis = models.TextField(blank=True, verbose_name="Диагноз")
     objects = models.Manager()
     current = NowInDepartmentManager()
 
@@ -196,5 +229,7 @@ class Hospitalization(models.Model):
     def __str__(self):
         return "{} - {}".format(
             self.entry_date.strftime("%d.%m.%Y"),
-            self.leaving_date.strftime("%d.%m.%Y") if self.leaving_date else 'находится в отделении'
+            self.leaving_date.strftime("%d.%m.%Y")
+            if self.leaving_date
+            else "находится в отделении",
         )

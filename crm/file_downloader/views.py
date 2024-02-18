@@ -2,11 +2,12 @@ import logging
 from pathlib import PosixPath
 
 from celery.result import AsyncResult
-from crm import settings
 from django.http import HttpResponse, JsonResponse
 from django.urls import reverse
 from django.views import View
 from django.views.generic import TemplateView
+
+from crm import settings
 
 logger = logging.getLogger("django.console")
 

@@ -1,9 +1,9 @@
-from crm import settings
 from django.contrib.auth import get_user_model
 from django.contrib.auth.views import LoginView, PasswordChangeView
 from django.urls import reverse_lazy
 from django.views.generic import UpdateView
 
+from crm import settings
 from utils.mixins import DataMixin
 from utils.utils import LoginRequiredMixin
 

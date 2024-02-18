@@ -1,18 +1,28 @@
 from django.contrib.auth import get_user_model
 from django.urls import reverse, reverse_lazy
-from django.views.generic import (CreateView, DeleteView, ListView,
-                                  TemplateView, UpdateView)
+from django.views.generic import (
+    CreateView,
+    DeleteView,
+    DetailView,
+    ListView,
+    TemplateView,
+    UpdateView,
+)
+
 from file_downloader.views import CreateFileDocxView
 from htmx.http import RenderPartial
 from patients import service as patient_service
 from tables.views import TableInlineFormView, TableRowView, TableView
-
 from utils.mixins import DataMixin
 from utils.utils import LoginRequiredMixin
 
 from . import service, tasks
-from .forms import (CreateHospitalizationForm, LeaveForm,
-                    UpdateHospitalizationForm, UpdateHospitalizationInlineForm)
+from .forms import (
+    CreateHospitalizationForm,
+    LeaveForm,
+    UpdateHospitalizationForm,
+    UpdateHospitalizationInlineForm,
+)
 from .models import Hospitalization
 from .tables import CurrentHospitalizationsTable, HospitalizationsTable
 
@@ -141,7 +151,9 @@ class Leave(LoginRequiredMixin, DataMixin, UpdateView):
         return service.get(pk=self.kwargs["pk"])
 
 
-class DetailView(LoginRequiredMixin, DataMixin, TableRowView, TemplateView):
+class HospitalizationDetailView(
+    LoginRequiredMixin, DataMixin, TableRowView, TemplateView
+):
     allow_empty = False
     table_schema = HospitalizationsTable
     table_view_name = "hospitalizations:hospitalizations"
@@ -187,3 +199,36 @@ class CurrentHospitalizationsCreateXlsxView(
     temp_file_extension = "xlsx"
     download_url = "hospitalizations:download_current_xlsx"
     task = tasks.BuildCurrentXlsxFileTask  # TODO str? агрегация
+
+
+class DocumentsView(LoginRequiredMixin, DataMixin, DetailView):
+    model = Hospitalization
+    template_name = "hospitalizations/documents.html"
+    context_object_name = "hospitalization"
+    title_page = "Документы"
+
+
+class CreateDocumentDocxView(
+    LoginRequiredMixin, RenderPartial, CreateFileDocxView
+):
+    download_url = "hospitalizations:download_docx"
+    task = tasks.BuildDocxFileTask
+
+    def get_context_data(self, **kwargs):
+        self.task_kwargs = {
+            "pk": self.kwargs.get("pk"),
+        }
+        context = super().get_context_data(**self.task_kwargs)
+        return context
+
+
+###
+
+
+class CreateReferenceDocxView(CreateDocumentDocxView):
+    template_file_path = "docx/reference.docx"
+
+
+class CreateReferralDocxView(CreateDocumentDocxView):
+    template_file_path = "docx/referral.docx"
+    filename = "Направление"

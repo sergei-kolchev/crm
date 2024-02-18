@@ -1,7 +1,8 @@
-from crm import settings
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import include, path
+
+from crm import settings
 from patients import views
 
 urlpatterns = [
@@ -9,7 +10,6 @@ urlpatterns = [
     path("", include("patients.urls")),
     path("users/", include("users.urls")),
     path("hospitalizations/", include("hospitalizations.urls")),
-    path("cards/", include("medical_cards.urls"))
 ]
 
 handler403 = views.forbidden

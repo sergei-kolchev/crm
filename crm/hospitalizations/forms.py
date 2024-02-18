@@ -11,9 +11,12 @@ class CreateHospitalizationForm(forms.ModelForm):
         fields = (
             "entry_date",
             "leaving_date",
-            "notes",
             "patient",
             "doctor",
+            "number",
+            "diagnosis",
+            "custom_diagnosis",
+            "notes",
         )
         widgets = {
             "entry_date": forms.DateTimeInput(
@@ -31,6 +34,11 @@ class CreateHospitalizationForm(forms.ModelForm):
                 attrs={"class": "form-select", "size": 10}
             ),
             "doctor": forms.Select(attrs={"class": "form-select", "size": 4}),
+            "number": forms.TextInput(attrs={"class": "form-control"}),
+            "diagnosis": forms.Select(attrs={"class": "form-select"}),
+            "custom_diagnosis": forms.Textarea(
+                attrs={"class": "form-control", "rows": 4}
+            ),
         }
 
     def clean(self):
@@ -49,9 +57,12 @@ class UpdateHospitalizationForm(forms.ModelForm):
         fields = (
             "entry_date",
             "leaving_date",
-            "notes",
             "patient",
             "doctor",
+            "number",
+            "diagnosis",
+            "custom_diagnosis",
+            "notes",
         )
 
         widgets = {
@@ -70,6 +81,11 @@ class UpdateHospitalizationForm(forms.ModelForm):
                 attrs={"class": "form-select", "size": 10}
             ),
             "doctor": forms.Select(attrs={"class": "form-select", "size": 4}),
+            "number": forms.TextInput(attrs={"class": "form-control"}),
+            "diagnosis": forms.Select(attrs={"class": "form-select"}),
+            "custom_diagnosis": forms.Textarea(
+                attrs={"class": "form-control", "rows": 4}
+            ),
         }
 
     def clean(self):

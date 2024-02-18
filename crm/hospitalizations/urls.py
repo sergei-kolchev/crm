@@ -1,6 +1,6 @@
 from django.urls import path
-from hospitalizations import views
 
+from hospitalizations import views
 from utils import views as files_views
 
 app_name = "hospitalizations"
@@ -46,7 +46,11 @@ urlpatterns = [
         views.UpdateHospitalization.as_view(),
         name="update",
     ),
-    path("<int:pk>/detail/", views.DetailView.as_view(), name="detail"),
+    path(
+        "<int:pk>/detail/",
+        views.HospitalizationDetailView.as_view(),
+        name="detail",
+    ),
     path(
         "current/<str:order>/<str:direction>/docx",
         views.CurrentHospitalizationsCreateDocxView.as_view(),
@@ -76,5 +80,26 @@ urlpatterns = [
         "current/download/xlsx/<str:task_id>/",
         files_views.DownloadFileXlsxAuthorizedView.as_view(),
         name="download_current_xlsx",
+    ),
+    path(
+        "documents/<int:pk>/",
+        views.DocumentsView.as_view(),
+        name="documents",
+    ),
+    path(
+        "documents/download/docx/<str:task_id>/",
+        files_views.DownloadFileDocxView.as_view(),
+        name="download_docx",
+    ),
+    ###
+    path(
+        "documents/reference/<int:pk>/docx",
+        views.CreateReferenceDocxView.as_view(),
+        name="create_reference",
+    ),
+    path(
+        "documents/referral/<int:pk>/docx",
+        views.CreateReferralDocxView.as_view(),
+        name="create_referral",
     ),
 ]

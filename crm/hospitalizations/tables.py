@@ -8,8 +8,10 @@ class CurrentHospitalizationsTable(schemas.TableSchema):
         verbose_name="ФИО",
         view_name_th="hospitalizations:current",
         attrs_th=HTMLAttributes(attrs={"style": "width: 30%"}),
-        attrs_td=HTMLAttributes(attrs={"class": "align-middle ps-2"}),
-        view_name_td="hospitalizations:hospitalizations",
+        attrs_td=HTMLAttributes(
+            attrs={"class": "align-middle ps-2", "hx-target": "#main"}
+        ),
+        view_name_td="hospitalizations:documents",
         converters=(converters.FioConverter(),),
     )
     entry_date = fields.TextSortedField(

@@ -3,17 +3,20 @@ from datetime import datetime
 from http import HTTPStatus
 from unittest.mock import Mock, patch
 
-import file_downloader
 from django import forms as django_forms
 from django.contrib.auth import get_user_model
 from django.http import HttpResponse
 from django.test import SimpleTestCase, TestCase
 from django.urls import reverse
-from hospitalizations import forms
-from hospitalizations.models import Hospitalization
-from hospitalizations.utils import (check_dates_intersection,
-                                    validate_hospitalization_fields)
 from parameterized import parameterized
+
+import file_downloader
+from hospitalizations import forms
+from hospitalizations.models import Diagnosis, Hospitalization
+from hospitalizations.utils import (
+    check_dates_intersection,
+    validate_hospitalization_fields,
+)
 from patients.models import Patient
 
 
@@ -34,14 +37,21 @@ class AuthorizedUserTestCase(TestCase):
 
 
 class HospitalizationViewTests(AuthorizedUserTestCase):
+    fixtures = [
+        "patients_patient.json",
+        "users_user.json",
+        "hospitalizations_hospitalization.json",
+        "hospitalizations_diagnosis.json",
+    ]
     """Тесты для представлений"""
-
     _hospitalization = {
         "entry_date": "2024-01-04T17:27:59Z",
         "leaving_date": "",
         "notes": "",
         "time_create": "2024-01-07T17:28:14.098Z",
         "time_update": "2024-01-07T17:28:14.098Z",
+        "number": 1,
+        "diagnosis": 1,
         "patient": 1,
         "doctor": 3,
     }
@@ -161,6 +171,7 @@ class HospitalizationViewTests(AuthorizedUserTestCase):
 
     def test_add_hospitalizations_error(self):
         """Тест ошибки при добавлении госпитализации"""
+        # self._hospitalization['diagnosis'] = 1 #Diagnosis.objects.get(pk=1)
         self.client.post(
             reverse("hospitalizations:create"), self._hospitalization
         )
@@ -689,20 +700,25 @@ class HospitalizationModelTests(TestCase):
         "patients_patient.json",
         "users_user.json",
         "hospitalizations_hospitalization.json",
+        "hospitalizations_diagnosis.json",
     ]
 
     _hospitalization = {
-        "entry_date": "2024-01-04T17:27:59Z",
+        "entry_date": datetime.strptime(
+            "2024-01-04 01:13:21", "%Y-%m-%d %H:%M:%S"
+        ),
         "leaving_date": None,
         "notes": "",
         "time_create": "2024-01-07T17:28:14.098Z",
         "time_update": "2024-01-07T17:28:14.098Z",
         "patient": 1,
+        "number": "1/4",
         "doctor": 3,
     }
 
     def setUp(self):
         self._hospitalization["patient"] = Patient.objects.get(pk=1)
+        self._hospitalization["diagnosis"] = Diagnosis.objects.get(pk=1)
         self._hospitalization["doctor"] = get_user_model().objects.get(pk=3)
         self.hospitalization = Hospitalization(**self._hospitalization)
 
@@ -713,9 +729,9 @@ class HospitalizationModelTests(TestCase):
         """Тест строкового представления объекта госпитализации"""
         self.assertEqual(
             str(self.hospitalization),
-            "{}-{}".format(
-                self._hospitalization["entry_date"],
-                self._hospitalization["leaving_date"],
+            "{} - {}".format(
+                self._hospitalization["entry_date"].strftime("%d.%m.%Y"),
+                "находится в отделении",
             ),
         )
 

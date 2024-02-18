@@ -28,8 +28,14 @@ class BuildCurrentXlsxFileTask(BuildFileTask):
         )
 
 
+class BuildDocxFileTask(BuildFileTask):
+    def get_file_context(self, **kwargs):
+        return {"obj": service.get_one(self.pk)}
+
+
 BuildCurrentByDoctorsDocxFileTask = celery_app.register_task(
     BuildCurrentByDoctorsDocxFileTask()
 )
 BuildCurrentDocxFileTask = celery_app.register_task(BuildCurrentDocxFileTask())
 BuildCurrentXlsxFileTask = celery_app.register_task(BuildCurrentXlsxFileTask())
+BuildDocxFileTask = celery_app.register_task(BuildDocxFileTask())
