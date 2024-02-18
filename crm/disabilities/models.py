@@ -1,5 +1,7 @@
 from django.db import models
 
+from patients.models import Patient
+
 
 class Employer(models.Model):
     name = models.CharField(
@@ -69,6 +71,14 @@ class Disability(models.Model):
         default=None,
         blank=True,
         verbose_name="Дата начала больничного листа",
+    )
+    patient = models.OneToOneField(
+        Patient,
+        on_delete=models.CASCADE,
+        related_name="disability",
+        default=None,
+        null=False,
+        verbose_name="Пациент",
     )
     time_create = models.DateTimeField(
         auto_now_add=True, verbose_name="Время создания"

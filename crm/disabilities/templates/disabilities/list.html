@@ -1,6 +1,6 @@
 {% extends 'patients/partial_base.html' %}
 {% block partial_content %}
-disabilities
+<a href="{% url 'disabilities:create' %}" hx-target="#main">Добавить</a>
 {% if table.header %}
     {% include "tables/table.html" %}
 {% endif %}

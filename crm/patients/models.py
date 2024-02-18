@@ -1,7 +1,5 @@
 from django.db import models
 
-from disabilities.models import Disability
-
 
 class Patient(models.Model):
     class Incapacity(models.IntegerChoices):
@@ -26,14 +24,6 @@ class Patient(models.Model):
         choices=tuple(map(lambda x: (bool(x[0]), x[1]), Incapacity.choices)),
         default=Incapacity.NO,
         verbose_name="Недееспособность",
-    )
-    disability = models.OneToOneField(
-        Disability,
-        on_delete=models.SET_NULL,
-        related_name="hospitalizations",
-        default=None,
-        null=True,
-        verbose_name="Нетрудоспособность",
     )
     time_create = models.DateTimeField(auto_now_add=True)
     time_update = models.DateTimeField(auto_now=True)
