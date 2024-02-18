@@ -12,6 +12,11 @@ def get_patients_context(request):
                 "image_url": "images/noun-medical-1730855.png",
             },
             {
+                "url": "disabilities:list",
+                "name": "Нетрудоспособность",
+                "image_url": "images/noun-medical-2941978.png"
+            },
+            {
                 "url": "patients:patients",
                 "name": "Журналы",
                 "image_url": "images/noun-documentation-2912476.png",
