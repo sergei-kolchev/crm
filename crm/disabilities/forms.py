@@ -5,6 +5,7 @@ from django.forms import BaseInlineFormSet, inlineformset_factory
 
 from disabilities import models
 from disabilities.models import Disability, DisabilityCommissionDate
+from patients.models import Patient
 
 
 class CreateDisabilityForm(forms.ModelForm):
@@ -39,26 +40,24 @@ class CreateDisabilityForm(forms.ModelForm):
         }
 
 
-class BaseCommissionDatesFormset(BaseInlineFormSet):
-    def add_fields(self, form, index):
-        super().add_fields(form, index)
-        #form.fields["disability_start_date"] = forms.DateTimeInput()
+DisabilityFormset = inlineformset_factory(Patient, Disability, fields=['disability_start_date', 'patient', 'employer', 'position'], extra=1)
+DisabilityCommissionDate = inlineformset_factory(Disability, DisabilityCommissionDate, fields=['date'], extra=5)
 
-        form.nested = CreateDisabilityForm(
+
+class BaseFormset(BaseInlineFormSet):
+    def add_fields(self, form, index):
+        super(BaseFormset, self).add_fields(form, index)
+
+        form.nested = DisabilityCommissionDate(
             instance=form.instance,
             data=form.data if form.is_bound else None,
+            files=form.files if form.is_bound else None,
+            #extra=1
         )
 
 
-CommissionDatesFormset = inlineformset_factory(
-    models.Disability,
-    models.DisabilityCommissionDate,
-    formset=BaseCommissionDatesFormset,
-    fields=['date'],
-    extra=1
-)
-
-
-BookImageFormset = inlineformset_factory(
-    Disability, DisabilityCommissionDate, fields=['date', ]
-)
+Formset = inlineformset_factory(models.Patient,
+                                models.Disability,
+                                fields=['disability_start_date', 'patient', 'employer', 'position'],
+                                formset=BaseFormset,
+                                extra=1)

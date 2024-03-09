@@ -1,8 +1,23 @@
 {% extends 'patients/partial_base.html' %}
 {% block partial_content %}
 
-{{ form.as_p }}
 
-{{ form.nested }}
+{{ form.management_form }}
+{{ form.non_form_errors }}
+
+{% for child_form in form.forms %}
+    {{ child_form }}
+
+    {% if child_form.nested %}
+        {{ child_form.nested.management_form }}
+        {{ child_form.nested.non_form_errors }}
+
+        {% for nested_form in child_form.nested.forms %}
+            {{ nested_form }}
+        {% endfor %}
+
+    {% endif %}
+
+{% endfor %}
 
 {% endblock %}

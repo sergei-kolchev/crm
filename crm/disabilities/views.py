@@ -1,7 +1,7 @@
 from django.urls import reverse_lazy
 from django.views.generic import ListView, CreateView
 
-from disabilities.forms import CreateDisabilityForm, CommissionDatesFormset, BookImageFormset
+from disabilities.forms import CreateDisabilityForm, Formset
 from disabilities.models import Disability
 from disabilities.tables import DisabilityTable
 from tables.views import TableView
@@ -27,12 +27,12 @@ class CreateDisability(
     LoginRequiredMixin, DataMixin, CreateView
 ):
     #form_class = CreateDisabilityForm
-    #form_class = CommissionDatesFormset
-    from_class = BookImageFormset
+    form_class = Formset
+    #from_class = BookImageFormset
     template_name = "disabilities/add.html"
     success_url = reverse_lazy("disabilities:list")
     title_page = "Добавление периода нетрудоспособности"
-    fields = ('patient', 'employer', 'position')
+    #fields = ('patient', 'employer', 'position')
 
     def get_queryset(self):
         print(self.from_class)
