@@ -105,6 +105,10 @@ class Breadcrumbs:
             return
 
         for i, item in enumerate(parts):
+            if item in settings.DYNAMIC_BREADCRUMBS_EXCLUDE:
+                break
+            elif item.isnumeric() and not settings.DYNAMIC_BREADCRUMBS_SHOW_ID:
+                continue
             path = urljoin(path, item + "/")
             b_item = BreadcrumbsItem(
                 base_url=self.base_url,
@@ -140,7 +144,10 @@ class BreadcrumbsItem:
                 return apps.get_app_config(self.name_raw).verbose_name
             except Exception:  # nosec
                 pass
-        return self.name_raw
+        return settings.DYNAMIC_BREADCRUMBS_URLS_NAMES.get(
+            self.name_raw,
+            self.name_raw
+        )
 
     def as_dict(self):
         result = {

@@ -46,7 +46,7 @@ class FileContent:
     @staticmethod
     def get_current_by_doctors():
         queryset = get_user_model().objects.filter(
-            Q(hospitalizations__leaving_date=None) & ~Q(username="root")
+            Q(hospitalizations__leaving_date=None)
         )
         queryset = (
             queryset.annotate(
@@ -80,6 +80,7 @@ class FileContent:
         for row in queryset:
             data.setdefault(row[0], [])
             data[row[0]].append(row[1:])
+        print(data)
         return data
 
     @staticmethod

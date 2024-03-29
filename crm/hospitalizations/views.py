@@ -137,7 +137,7 @@ class Leave(LoginRequiredMixin, DataMixin, UpdateView):
     form_class = LeaveForm
     template_name = "hospitalizations/leave.html"
     success_url = reverse_lazy("hospitalizations:current")
-    page_title = "Выписать пациента"
+    title_page = "Выписать пациента"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

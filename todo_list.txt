@@ -64,3 +64,12 @@ https://pypi.org/project/django-dynamic-breadcrumbs/
 
 sqlitebrowser
 https://sqlitebrowser.org/dl/
+
+
+- админка
+- приделать постгрес
+- кэширование с редис?
+- разнести requirements
+- упаковать код приложения в докер
+- запуск celery из докер
+- проверить разворачивание в проде
