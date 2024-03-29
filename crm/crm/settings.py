@@ -153,7 +153,8 @@ LOGGING = {
     "formatters": {
         "colored": {
             "()": "colorlog.ColoredFormatter",
-            "format": "%(log_color)s %(levelname)-8s %(asctime)s %(module)s %(reset)s %(blue)s%(message)s",
+            "format": "%(log_color)s %(levelname)-8s %(asctime)s "
+                      "%(module)s %(reset)s %(blue)s%(message)s",
             "datefmt": "%d-%m-%Y %H:%M:%S",
         },
         "file": {
@@ -197,7 +198,7 @@ AUTH_USER_MODEL = "users.User"
 
 DEFAULT_USER_IMAGE = MEDIA_URL + "users/noun-profile-801396.png"
 
-AVATAR_FILE_MAX_SIZE = 1000 * 256  # в кибибайтах
+AVATAR_FILE_MAX_SIZE = 1000 * 256  # kibibyte
 AVATAR_MAX_WIDTH = 600
 AVATAR_MIN_WIDTH = 100
 AVATAR_MAX_HEIGHT = 600
