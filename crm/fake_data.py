@@ -5,7 +5,6 @@ from datetime import datetime, timedelta
 from django.contrib.auth import get_user_model
 from django.db.models import Q
 from faker import Faker
-
 from hospitalizations.models import Diagnosis, Hospitalization
 from patients.models import Patient
 

@@ -2,7 +2,6 @@ from typing import Optional, Union
 
 from django.db.models import QuerySet
 from django.http import QueryDict
-
 from tables import factory
 from tables.cells import Table, TableBodyCell, TableHeaderCell
 from tables.converters import CellContentConverter

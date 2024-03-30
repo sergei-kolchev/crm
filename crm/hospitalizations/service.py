@@ -2,7 +2,6 @@ from django.contrib.auth import get_user_model
 from django.db.models import CharField, F, Func, Q, TextField, Value
 from django.db.models.functions import Concat
 from django.shortcuts import get_object_or_404
-
 from hospitalizations.models import Hospitalization
 
 
@@ -80,7 +79,6 @@ class FileContent:
         for row in queryset:
             data.setdefault(row[0], [])
             data[row[0]].append(row[1:])
-        print(data)
         return data
 
     @staticmethod

@@ -145,8 +145,7 @@ class BreadcrumbsItem:
             except Exception:  # nosec
                 pass
         return settings.DYNAMIC_BREADCRUMBS_URLS_NAMES.get(
-            self.name_raw,
-            self.name_raw
+            self.name_raw, self.name_raw
         )
 
     def as_dict(self):
