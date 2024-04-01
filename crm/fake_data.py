@@ -55,7 +55,7 @@ def get_dates_list():
 fios = set(
     f"{fake.last_name_female()} {fake.first_name_female()} "
     f"{fake.middle_name_female()}"
-    for n in range(1000)
+    for n in range(100)
 )
 
 diagnosis = Diagnosis.objects.all()

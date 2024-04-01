@@ -71,5 +71,5 @@ celery -A crm flower --broker_api="http://guest:guest@127.0.0.1:15672/api/" -l i
 gunicorn crm.wsgi:application --workers=1 --bind 0.0.0.0:8000
 
 
-- сделать выгрузку дампа
 - проверить разворачивание в проде
+- поменять фио в тестах

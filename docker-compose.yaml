@@ -43,7 +43,6 @@ services:
     build:
       context: .
     container_name: celery
-    # command: [ "/crm/docker/celery.sh", "celery" ]
     entrypoint: /crm/docker/celery.sh
     env_file:
       - crm/.env.prod
@@ -62,7 +61,6 @@ services:
     container_name: crm
     env_file:
       - crm/.env.prod
-    # command: [ "/crm/docker/crm.sh" ]
     entrypoint: /crm/docker/crm.sh
     restart: always
     depends_on:

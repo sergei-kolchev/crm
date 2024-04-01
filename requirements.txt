@@ -17,7 +17,6 @@ click-plugins==1.1.1
 click-repl==0.3.0
 colorama==0.4.6
 colorlog==6.8.2
-coverage==7.3.3
 dill==0.3.7
 distlib==0.3.8
 Django==5.0
@@ -27,9 +26,7 @@ docxtpl==0.16.7
 easy-thumbnails==2.8.5
 et-xmlfile==1.1.0
 exceptiongroup==1.2.0
-Faker==22.0.0
 filelock==3.13.1
-flower==2.0.1
 fortnum==0.0.9
 frozenlist==1.4.0
 gitdb==4.0.11
@@ -47,6 +44,7 @@ MarkupSafe==2.1.4
 mccabe==0.7.0
 mdurl==0.1.2
 multidict==6.0.4
+mypy-extensions==1.0.0
 nodeenv==1.8.0
 openpyxl==3.1.2
 packaging==23.2
@@ -60,6 +58,10 @@ prometheus_client==0.20.0
 prompt-toolkit==3.0.43
 psycopg2==2.9.9
 py==1.11.0
+pycodestyle==2.11.1
+pydantic==2.5.3
+pydantic_core==2.14.6
+pyflakes==3.1.0
 Pygments==2.17.2
 pyproject-api==1.6.1
 python-dateutil==2.8.2

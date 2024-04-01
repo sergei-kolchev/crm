@@ -17,6 +17,10 @@ then
         --email $DJANGO_SUPERUSER_EMAIL
 fi
 
+# Load data
+echo "Loading data"
+python manage.py loaddata db.json
+
 # Start gunicorn
 echo "Starting gunicorn"
 gunicorn crm.wsgi:application --workers 1 --bind=0.0.0.0:8000 --timeout 90
