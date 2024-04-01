@@ -166,7 +166,7 @@ class CurrentHospitalizationsCreateDocxView(
 ):
     template_file_path = "docx/list.docx"
     download_url = "hospitalizations:download_current_docx"
-    task = tasks.BuildCurrentDocxFileTask  # TODO str?
+    task = tasks.BuildCurrentDocxFileTask
     selected_doctor = 0
 
     def get(self, request, *args, **kwargs):
@@ -188,7 +188,7 @@ class CurrentHospitalizationsByDoctorsCreateDocxView(
 ):
     template_file_path = "docx/list_by_doctors.docx"
     download_url = "hospitalizations:download_current_docx"
-    task = tasks.BuildCurrentByDoctorsDocxFileTask  # TODO str?
+    task = tasks.BuildCurrentByDoctorsDocxFileTask
 
 
 class CurrentHospitalizationsCreateXlsxView(

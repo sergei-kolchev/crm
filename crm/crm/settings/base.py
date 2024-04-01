@@ -4,6 +4,8 @@ from . import BASE_DIR
 
 SECRET_KEY = os.getenv("SECRET_KEY")
 
+ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS").split(',')
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -97,7 +99,6 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
 STATIC_URL = "static/"
-STATICFILES_DIRS = [BASE_DIR / "static"]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
@@ -174,6 +175,11 @@ BROKER_HOSTPORT = os.environ.get("BROKER_HOSTPORT")
 BROKER_PORT = os.environ.get("BROKER_PORT")
 RABBITMQ_DEFAULT_USER = os.environ.get("RABBITMQ_DEFAULT_USER")
 RABBITMQ_DEFAULT_PASS = os.environ.get("RABBITMQ_DEFAULT_PASS")
+
+# Redis
+REDIS_HOST = os.environ.get("REDIS_HOST")
+REDIS_PORT = os.environ.get("REDIS_PORT")
+REDIS_NAME = os.environ.get("REDIS_NAME")
 
 
 # Breadcrumbs

@@ -1,8 +1,8 @@
 import os
 
-DEBUG = False
+from . import BASE_DIR
 
-ALLOWED_HOSTS = ["127.0.0.1", "localhost"]
+DEBUG = False
 
 DATABASES = {
     'default': {
@@ -14,3 +14,5 @@ DATABASES = {
         'PORT': os.getenv('POSTGRES_PORT'),
     }
 }
+
+STATIC_ROOT = BASE_DIR / "static"  # static/

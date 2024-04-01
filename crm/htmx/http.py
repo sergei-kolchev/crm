@@ -216,7 +216,6 @@ def render_partial(
 
 
 class RenderPartial:
-    success_message = None  # TODO сделать вывод success_message
     error_message = None
 
     def dispatch(self, request, *args, **kwargs):

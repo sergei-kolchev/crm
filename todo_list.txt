@@ -66,8 +66,10 @@ sqlitebrowser
 https://sqlitebrowser.org/dl/
 
 
-- приделать постгрес
-- кэширование с редис?
-- упаковать код приложения в докер
-- запуск celery из докер
+celery -A crm worker -l info
+celery -A crm flower --broker_api="http://guest:guest@127.0.0.1:15672/api/" -l info
+gunicorn crm.wsgi:application --workers=1 --bind 0.0.0.0:8000
+
+
+- сделать выгрузку дампа
 - проверить разворачивание в проде

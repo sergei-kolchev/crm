@@ -1,0 +1,97 @@
+version: "2.2"
+
+services:
+  redis:
+    container_name: redis_container
+    image: redis
+    restart: always
+    env_file:
+      - crm/.env.prod
+    expose:
+      - 6739
+
+  postgres:
+    container_name: postgres_container
+    image: postgres
+    env_file:
+      - crm/.env.prod
+    restart: always
+    environment:
+      PG_DATA: /var/lib/postgresql/data
+    expose:
+      - 5432
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U user"]
+      interval: 1m30s
+      timeout: 10s
+      retries: 3
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitmq
+    env_file:
+      - crm/.env.prod
+    expose:
+      - 5672
+      - 15672
+    volumes:
+      - rabbitmq:/var/lib/rabbitmq/data
+
+  celery:
+    build:
+      context: .
+    container_name: celery
+    # command: [ "/crm/docker/celery.sh", "celery" ]
+    entrypoint: /crm/docker/celery.sh
+    env_file:
+      - crm/.env.prod
+    restart: always
+    depends_on:
+      - redis
+      - rabbitmq
+      - crm
+    volumes:
+      - tmp_volume:/tmp
+
+  crm:
+    image: crm
+    build:
+      context: .
+    container_name: crm
+    env_file:
+      - crm/.env.prod
+    # command: [ "/crm/docker/crm.sh" ]
+    entrypoint: /crm/docker/crm.sh
+    restart: always
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_started
+    volumes:
+      - static_volume:/crm/static
+      - media_volume:/crm/media
+      - tmp_volume:/tmp
+    expose:
+      - 8000
+
+  nginx:
+    build: ./nginx
+    container_name: nginx
+    volumes:
+      - static_volume:/crm/static
+      - media_volume:/crm/media
+    ports:
+      - 1337:80
+    depends_on:
+      - crm
+
+volumes:
+  pgdata:
+  redisdata:
+  rabbitmq:
+  static_volume:
+  media_volume:
+  tmp_volume:

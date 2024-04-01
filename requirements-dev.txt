@@ -75,3 +75,4 @@ virtualenv==20.25.0
 wcwidth==0.2.13
 yarl==1.9.4
 psycopg2==2.9.9
+gunicorn==21.2.0

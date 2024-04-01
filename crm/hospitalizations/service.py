@@ -94,17 +94,17 @@ class FileContent:
             "tbl_contents": list(
                 queryset.annotate(
                     formatted_entry_date=Func(
-                        Value("%d.%m.%Y"),
                         F("entry_date"),
-                        function="strftime",
+                        Value("DD.MM.YYYY"),
+                        function="TO_CHAR",
                         output_field=TextField(),
                     )
                 )
                 .annotate(
                     formatted_birthday=Func(
-                        Value("%d.%m.%Y"),
                         F("patient__birthday"),
-                        function="strftime",
+                        Value("DD.MM.YYYY"),
+                        function="TO_CHAR",
                         output_field=TextField(),
                     )
                 )
