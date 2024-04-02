@@ -5,7 +5,7 @@
 <p align="center">
    <img src="https://img.shields.io/badge/Python-3.11-blue" alt="Python 3.11">
    <img src="https://img.shields.io/badge/Django-5.0-success" alt="Django Version">
-   <img src="https://img.shields.io/badge/CRM-1.0.4-blue" alt="CRM Version">
+   <img src="https://img.shields.io/badge/CRM-1.0-blue" alt="CRM Version">
    <img src="https://img.shields.io/badge/License-MIT-success" alt="License">
 </p>
 
