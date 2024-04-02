@@ -18,8 +18,6 @@
 - Управление госпитализациями 
 - Работа с медицинскими документами
 
-Python, PostgreSQL, Redis, Django, Celery
-
 ## Установка
 
 ```commandline
