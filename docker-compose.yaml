@@ -16,8 +16,6 @@ services:
     env_file:
       - crm/.env.prod
     restart: always
-    environment:
-      PG_DATA: /var/lib/postgresql/data
     expose:
       - 5432
     volumes:
