@@ -21,7 +21,7 @@ services:
     volumes:
       - pgdata:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U user"]
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
       interval: 1m30s
       timeout: 10s
       retries: 3
@@ -80,7 +80,7 @@ services:
       - static_volume:/crm/static
       - media_volume:/crm/media
     ports:
-      - 1337:80
+      - 80:80
     depends_on:
       - crm
 
