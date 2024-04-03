@@ -1,69 +1,15 @@
 {% load static %}
 <div class="container">
   <div class="row row-cols-3">
-    <div class="col text-center" hx-boost="true">
-            <a href="{% url 'patients:patients' %}" hx-target="#main" hx-indicator="#spinner" hx-swap="innerHTML">
-                <figure class="figure">
-                <img src="{% static 'images/noun-hospital-1891627.png' %}" class="figure-img img-fluid rounded" alt="Картотека пациентов" style="width:100px;">
-                    <figcaption class="figure-caption">Картотека пациентов</figcaption>
-                </figure>
-            </a>
-    </div>
-    <div class="col text-center" hx-boost="true">
-            <a href="{% url 'patients:patients' %}" hx-target="#main" hx-indicator="#spinner">
-                <figure class="figure">
-                <img src="{% static 'images/noun-medical-1730855.png' %}" class="figure-img img-fluid rounded" alt="Находящиеся на лечении" style="width:100px;">
-                    <figcaption class="figure-caption">Находящиеся на лечении</figcaption>
-                </figure>
-            </a>
-    </div>
-    <div class="col text-center" hx-boost="true">
-            <a href="{% url 'patients:patients' %}" hx-target="#main" hx-indicator="#spinner">
-                <figure class="figure">
-                <img src="{% static 'images/noun-medical-1730851.png' %}" class="figure-img img-fluid rounded" alt="Лекарственные препараты" style="width:100px;">
-                    <figcaption class="figure-caption">Лекарственные препараты</figcaption>
-                </figure>
-            </a>
-    </div>
-    <div class="col text-center" hx-boost="true">
-            <a href="{% url 'patients:patients' %}" hx-target="#main" hx-indicator="#spinner">
-                <figure class="figure">
-                <img src="{% static 'images/noun-medical-prescription-2324570.png' %}" class="figure-img img-fluid rounded" alt="Медицинские карты" style="width:100px;">
-                    <figcaption class="figure-caption">Медицинские карты</figcaption>
-                </figure>
-            </a>
-    </div>
-    <div class="col text-center" hx-boost="true">
-            <a href="{% url 'patients:patients' %}" hx-target="#main" hx-indicator="#spinner">
-                <figure class="figure">
-                <img src="{% static 'images/noun-documentation-2912476.png' %}" class="figure-img img-fluid rounded" alt="Журналы" style="width:100px;">
-                    <figcaption class="figure-caption">Журналы</figcaption>
-                </figure>
-            </a>
-    </div>
-    <div class="col text-center" hx-boost="true">
-            <a href="{% url 'patients:patients' %}" hx-target="#main" hx-indicator="#spinner">
-                <figure class="figure">
-                <img src="{% static 'images/noun-statistics-1186479.png' %}" class="figure-img img-fluid rounded" alt="Отчеты" style="width:100px;">
-                    <figcaption class="figure-caption">Отчеты</figcaption>
-                </figure>
-            </a>
-    </div>
-    <div class="col text-center" hx-boost="true">
-            <a href="{% url 'patients:patients' %}" hx-target="#main" hx-indicator="#spinner">
-                <figure class="figure">
-                <img src="{% static 'images/noun-settings-1084769.png' %}" class="figure-img img-fluid rounded" alt="Настройки" style="width:100px;">
-                    <figcaption class="figure-caption">Настройки</figcaption>
-                </figure>
-            </a>
-    </div>
-    <div class="col text-center" hx-boost="true">
-            <a href="{% url 'patients:patients' %}" hx-target="#main" hx-indicator="#spinner">
-                <figure class="figure">
-                <img src="{% static 'images/noun-ai-2956643.png' %}" class="figure-img img-fluid rounded" alt="Ai" style="width:100px;">
-                    <figcaption class="figure-caption">Ai</figcaption>
-                </figure>
-            </a>
-    </div>
+      {% for menu in main_menu %}
+            <div class="col text-center" hx-boost="true">
+                    <a href="{% url menu.url %}" hx-target="#main" hx-indicator="#spinner" hx-swap="innerHTML">
+                        <figure class="figure">
+                        <img src="{% static menu.image_url %}" class="figure-img img-fluid rounded" alt="{{ menu.name }}" style="width:100px;">
+                            <figcaption class="figure-caption">{{ menu.name }}</figcaption>
+                        </figure>
+                    </a>
+            </div>
+      {% endfor %}
   </div>
 </div>

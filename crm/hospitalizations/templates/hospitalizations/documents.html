@@ -1,0 +1,28 @@
+{% extends 'patients/partial_base.html' %}
+{% block partial_content %}
+<h5>
+   {{ hospitalization.patient }}
+</h5>
+<ul>
+    <li>
+        <a href="{% url 'hospitalizations:create_reference' pk=hospitalization.pk %}"
+       hx-boost="true"
+       hx-target="#download"
+       hx-indicator="#spinner"
+       hx-swap="innerHTML">
+        Справка
+        </a>
+    </li>
+    <li>
+        <a href="{% url 'hospitalizations:create_referral' pk=hospitalization.pk %}"
+           hx-boost="true"
+           hx-target="#download"
+           hx-indicator="#spinner"
+           hx-swap="innerHTML">
+            Направление
+        </a>
+    </li>
+</ul>
+<div id="download">
+</div>
+{% endblock %}

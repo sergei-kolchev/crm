@@ -19,7 +19,7 @@ urlpatterns = [
         name="update_patient_status",
     ),
     path(
-        "patients/sort/<str:order>/<str:direction>",
+        "patients/sort/<str:order>/<str:direction>/",
         views.patient_list,
         name="patients",
     ),

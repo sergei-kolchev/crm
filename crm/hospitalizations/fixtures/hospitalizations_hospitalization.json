@@ -1,0 +1,67 @@
+[
+  {
+    "model": "hospitalizations.hospitalization",
+    "pk": 1,
+    "fields": {
+      "entry_date": "2023-12-19T09:40:36Z",
+      "leaving_date": "2024-01-03T01:50:00Z",
+      "notes": "",
+      "time_create": "2024-01-03T11:41:39.998Z",
+      "time_update": "2024-01-07T17:19:33.600Z",
+      "patient": 4,
+      "doctor": 3
+    }
+  },
+  {
+    "model": "hospitalizations.hospitalization",
+    "pk": 2,
+    "fields": {
+      "entry_date": "2024-01-02T08:15:12Z",
+      "leaving_date": null,
+      "notes": "",
+      "time_create": "2024-01-04T08:20:19.278Z",
+      "time_update": "2024-01-04T12:45:10.208Z",
+      "patient": 4,
+      "doctor": 3
+    }
+  },
+  {
+    "model": "hospitalizations.hospitalization",
+    "pk": 3,
+    "fields": {
+      "entry_date": "2024-01-01T17:25:31Z",
+      "leaving_date": null,
+      "notes": "",
+      "time_create": "2024-01-07T17:26:10.433Z",
+      "time_update": "2024-01-07T17:26:10.433Z",
+      "patient": 7,
+      "doctor": 1
+    }
+  },
+  {
+    "model": "hospitalizations.hospitalization",
+    "pk": 4,
+    "fields": {
+      "entry_date": "2024-01-02T17:27:06Z",
+      "leaving_date": null,
+      "notes": "",
+      "time_create": "2024-01-07T17:27:18.006Z",
+      "time_update": "2024-01-07T17:27:18.006Z",
+      "patient": 8,
+      "doctor": 1
+    }
+  },
+  {
+    "model": "hospitalizations.hospitalization",
+    "pk": 5,
+    "fields": {
+      "entry_date": "2024-01-04T17:27:59Z",
+      "leaving_date": null,
+      "notes": "",
+      "time_create": "2024-01-07T17:28:14.098Z",
+      "time_update": "2024-01-07T17:28:14.098Z",
+      "patient": 6,
+      "doctor": 3
+    }
+  }
+]

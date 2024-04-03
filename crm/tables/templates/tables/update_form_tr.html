@@ -1,0 +1,41 @@
+<tr>
+{% for f in form%}
+    {% if f %}
+    <td class="align-middle ps-2 align-text-top">
+        <div class="input-group">
+        {{ f }}
+        </div>
+        <div class="form-error">{{ f.errors }}</div>
+    </td>
+    {% endif %}
+{% endfor %}
+
+    <td class="align-middle text-center align-text-top">
+        <!-- Кнопка "Сохранить" -->
+        <button type="submit"
+                class="table-button btn btn-success btn-sm me-2"
+                hx-post="{% url update_view obj.pk %}"
+                hx-target="closest tr"
+                hx-swap="outerHTML"
+                hx-trigger="confirmed"
+                hx-include="closest tr"
+                _="on click
+                   call Swal.fire({icon: 'question', title: 'Внимание', text:'Вы точно хотите сохранить изменения?', background: 'white', showCancelButton: true, confirmButtonColor: '#0d6efd', cancelButtonColor: '#dc3545', confirmButtonText: 'Да', cancelButtonText: 'Отмена'})
+                   if result.isConfirmed trigger confirmed">
+            Сохранить
+        </button>
+        <!-- Кнопка "Отменить" -->
+        <button class="table-button btn btn-warning btn-sm me-2"
+                hx-get="{% url detail_view obj.pk %}"
+                hx-target="closest tr"
+                hx-swap="outerHTML">
+            Отменить
+        </button>
+        {% if form.non_field_errors %}
+        <hr>
+        <div class="form-error">
+            {{ form.non_field_errors }}
+        </div><hr>
+        {% endif %}
+    </td>
+</tr>

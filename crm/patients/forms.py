@@ -9,12 +9,21 @@ class AddPatientForm(forms.ModelForm):
     class Meta:
         model = Patient
         this_year = datetime.date.today().year
-        fields = ("surname", "name", "patronymic", "birthday")
+        fields = (
+            "surname",
+            "name",
+            "patronymic",
+            "birthday",
+            "registration_address",
+            "residential_address",
+        )
         labels = {
             "surname": "Фамилия",
             "name": "Имя",
             "patronymic": "Отчество",
             "birthday": "Дата рождения",
+            "registration_address": "Адрес регистрации",
+            "residential_address": "Адрес проживания",
         }
         widgets = {
             "birthday": forms.SelectDateWidget(
@@ -30,6 +39,18 @@ class AddPatientForm(forms.ModelForm):
             ),
             "name": forms.TextInput(
                 attrs={"class": "form-control", "placeholder": "Имя"}
+            ),
+            "registration_address": forms.Textarea(
+                attrs={
+                    "class": "form-control",
+                    "placeholder": "Адрес регистрации",
+                }
+            ),
+            "residential_address": forms.Textarea(
+                attrs={
+                    "class": "form-control",
+                    "placeholder": "Адрес проживания",
+                }
             ),
             "patronymic": forms.TextInput(
                 attrs={"class": "form-control", "placeholder": "Отчество"}

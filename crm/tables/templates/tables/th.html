@@ -1,0 +1,23 @@
+<small>
+    {{ cell.name }}
+    <a href=""
+       hx-get="{{ cell.asc_sorting_url }}"
+       hx-target="#main"
+       hx-swap="innerHTML">
+       {% if order == cell.sorting_field and direction == 'asc' %}
+       <i class="table-icon bi bi-arrow-down-square ms-1 {{ cell.sorting_field }}-asc disabled-button"></i>
+       {% else %}
+       <i class="table-icon bi bi-arrow-down-square ms-1 {{ cell.sorting_field }}-asc"></i>
+       {% endif %}
+    </a>
+    <a href=""
+       hx-get="{{ cell.desc_sorting_url }}"
+       hx-target="#main"
+       hx-swap="innerHTML">
+       {% if order == cell.sorting_field and direction == 'desc' %}
+       <i class="table-icon bi bi-arrow-up-square {{ cell.sorting_field }}-desc disabled-button"></i>
+       {% else %}
+       <i class="table-icon bi bi-arrow-up-square {{ cell.sorting_field }}-desc"></i>
+       {% endif %}
+    </a>
+</small>

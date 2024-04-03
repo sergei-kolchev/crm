@@ -6,6 +6,7 @@ from urllib.parse import unquote
 
 from django.core.serializers.json import DjangoJSONEncoder
 from django.http import HttpRequest, HttpResponse, HttpResponseBase
+from django.http.response import HttpResponseRedirectBase
 from django.shortcuts import redirect
 from django.template import loader
 
@@ -72,6 +73,19 @@ message_types = {
     "ok": "successMessage",
     "error": "errorMessage",
 }
+
+
+class HtmxResponseRedirect(HttpResponseRedirectBase):
+    status_code = 200
+
+    def __init__(self, redirect_to, *args, **kwargs):
+        super().__init__(redirect_to, *args, **kwargs)
+        self["HX-Redirect"] = self["Location"]
+        del self["Location"]
+
+    @property
+    def url(self) -> str:
+        return self["HX-Redirect"]
 
 
 def require_HTMX(redirect_url: str | Callable) -> Callable:
@@ -186,6 +200,8 @@ def render_partial(
     using: Any = None,
     message: str | list[str] | dict[str, Any] | None = None,
 ):
+    if not context:
+        context = {}
     if not request.htmx:
         context["template_include"] = template_name
         template_name = "htmx/relay.html"
@@ -197,3 +213,23 @@ def render_partial(
     if message:
         response = send_message(response, message)
     return response
+
+
+class RenderPartial:
+    error_message = None
+
+    def dispatch(self, request, *args, **kwargs):
+        response = super().dispatch(request, *args, **kwargs)
+        if hasattr(response, "context_data"):
+            form = response.context_data.get("form")
+            if form and self.request.method == "POST":
+                if form.errors and self.error_message is not None:
+                    response = send_message(response, self.error_message)
+        return response
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        if not self.request.htmx:
+            context["template_include"] = self.template_name
+            self.template_name = "htmx/relay.html"
+        return context

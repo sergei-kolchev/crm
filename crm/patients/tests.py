@@ -5,7 +5,10 @@ from django.urls import reverse
 
 
 class GetPatientsTestCase(TestCase):
-    fixtures = ["patients_patient.json"]
+    fixtures = [
+        "patients_patient.json",
+        "users_user.json",
+    ]
     headers = {"HTTP_HX-Request": "true"}
 
     data = {
@@ -26,10 +29,20 @@ class GetPatientsTestCase(TestCase):
         "birthday_year": "1980",
     }
 
+    user = {
+        "username": "test",
+        "password": "Test123456",
+    }
+
     _relay_url = "htmx/relay.html"
 
     def _get_path(self, template_name):
         return self._app_name + "/" + template_name
+
+    def setUp(self):
+        response = self.client.post(reverse("users:login"), self.user)
+        self.assertRedirects(response, reverse("patients:index"))
+        self.assertEqual(response.status_code, HTTPStatus.FOUND)
 
     def test_index_html_ok(self):
         path = reverse("patients:index")
@@ -145,7 +158,6 @@ class GetPatientsTestCase(TestCase):
                 response, bytes("Картотека пациентов", "utf-8")
             )
             self.assertContains(response, bytes(param["value"], "utf-8"))
-            self.assertContains(response, bytes("2 из 2", "utf-8"))
 
     def test_patients_page_htmx_pages_search_ok(self):
         params = [

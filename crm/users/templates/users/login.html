@@ -1,0 +1,46 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{ title }}</title>
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/bootstrap-icons.css' %}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
+    <link href="{% static 'images/favicon.png' %}" sizes="32x32" rel="shortcut icon"  type="image/png">
+    <script src="{% static 'js/bootstrap.bundle.min.js' %}" defer></script>
+    <script src="{% static 'js/htmx.min.js' %}" defer></script>
+    <script src="{% static 'js/patients.js' %}" defer></script>
+    <script src="{% static 'js/_hyperscript.min.js' %}" defer></script>
+    <script src="{% static 'js/sweetalert2@11.js' %}" defer></script>
+</head>
+<body>
+
+<form action="" method="post">
+<div class="jumbotron d-flex justify-content-center align-items-center min-vh-100 bg-light bg-gradient">
+        <div class="card text-center">
+                <div class="input-group mb-4">
+                      <div class="form px-4 pt-4">
+                          <span>Войти</span>
+                          {% csrf_token %}
+                          {% for f in form %}
+                            <div style="padding:10px;">{{ f }}</div>
+                          {% endfor %}
+
+                          <button class="btn btn-dark btn-block" type="submit">Войти</button>
+                      </div>
+                </div>
+        </div>
+    <div style="width:200px">
+        {% if form.non_field_errors %}
+        {{ form.non_field_errors }}
+        {% else %}
+        <img style="width:200px" src="{% static 'images/noun-authentication-708077.png' %}">
+        {% endif %}
+    </div>
+</div>
+</form>
+</body>
+</html>

@@ -1,6 +1,7 @@
 from typing import Any
 
 from django.core.paginator import Page, Paginator
+from django.shortcuts import get_object_or_404
 
 from crm import settings
 
@@ -17,7 +18,6 @@ def get_page(
     patients = get_all(order_by, direction, search_query)
     paginator = Paginator(patients, settings.PATIENTS_PAGINATE_BY)
     page_obj = paginator.get_page(page_number)
-
     return page_obj
 
 
@@ -29,9 +29,17 @@ def get_all(
     if direction == "desc":
         order_by = "-" + order_by
     if search_query:
-        patients = Patient.objects.filter(
-            *get_filtering_query(search_query)
-        ).order_by(order_by)
+        patients = (
+            Patient.objects.filter(*get_filtering_query(search_query))
+            .order_by(order_by)
+            .prefetch_related("hospitalizations")
+        )
     else:
-        patients = Patient.objects.order_by(order_by)
+        patients = Patient.objects.order_by(order_by).prefetch_related(
+            "hospitalizations"
+        )
     return patients
+
+
+def get_one(pk):
+    return get_object_or_404(Patient, pk=pk)

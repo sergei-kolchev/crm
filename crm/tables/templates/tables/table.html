@@ -1,0 +1,20 @@
+<table class="table table-bordered table-sm mt-4" id="current">
+    <thead>
+    <tr>
+        {% for cell in table.header %}
+            {% if cell.asc_sorting_url and cell.asc_sorting_url %}
+                <th scope="col" class="text-center" {{ cell.attrs|safe }}>
+                {% include 'tables/th.html' %}
+                 </th>
+            {% else %}
+                <th scope="col" class="text-center"  {{ cell.attrs|safe }}>{{ cell.name }}</th>
+            {% endif %}
+        {% endfor %}
+    </tr>
+    </thead>
+    <tbody>
+        {% for object in table.body_rows %}
+            {% include 'tables/tr.html' %}
+        {% endfor %}
+    </tbody>
+</table>

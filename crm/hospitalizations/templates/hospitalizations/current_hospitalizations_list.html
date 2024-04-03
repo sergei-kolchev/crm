@@ -1,0 +1,55 @@
+{% extends 'patients/partial_base.html' %}
+{% block partial_content %}
+{% load static %}
+<a href="{% url 'hospitalizations:create' %}" hx-boost="true" hx-target="#main">Добавить госпитализацию</a>
+{% if table.header %}
+<div class="input-group mb-3 pt-4">
+  <label class="input-group-text" for="selected_doctor">Лечащий врач</label>
+  <select class="form-select"
+          id="selected_doctor"
+          name="selected_doctor"
+          hx-trigger="change"
+          hx-get="{% url 'hospitalizations:current' %}"
+          hx-target="#main"
+  >
+  {% if selected_doctor == 0 %}
+    <option value="0" selected>Все врачи</option>
+  {% else %}
+    <option value="0">Все врачи</option>
+  {% endif %}
+  {% for doctor in doctors %}
+    {% if doctor.pk == selected_doctor %}
+        <option value="{{ doctor.pk }}" selected>{{ doctor }}</option>
+    {% else %}
+        {{ selected_doctor }} {{ doctor.pk }}
+        <option value="{{ doctor.pk }}">{{ doctor }}</option>
+    {% endif %}
+  {% endfor %}
+  </select>
+</div>
+{% include "tables/table.html" %}
+<a href="{% url 'hospitalizations:create_current_docx' order direction %}?selected_doctor={{ selected_doctor }}"
+   hx-boost="true"
+   hx-target="#download"
+   hx-indicator="#spinner"
+   hx-swap="innerHTML">
+    Сгенерировать список в docx
+</a> |
+<a href="{% url 'hospitalizations:create_current_by_doctor_docx' %}"
+   hx-boost="true"
+   hx-target="#download"
+   hx-indicator="#spinner"
+   hx-swap="innerHTML">
+    Сгенерировать список в docx (сортировка по врачам)
+</a> |
+<a href="{% url 'hospitalizations:create_current_xlsx' order direction %}?selected_doctor={{ selected_doctor }}"
+   hx-boost="true"
+   hx-target="#download"
+   hx-indicator="#spinner"
+   hx-swap="innerHTML">
+    Сгенерировать список в xlsx
+</a>
+<div id="download">
+</div>
+{% endif %}
+{% endblock %}

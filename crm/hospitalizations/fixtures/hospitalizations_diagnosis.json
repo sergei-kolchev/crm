@@ -1,0 +1,1 @@
+[{"model": "hospitalizations.diagnosis", "pk": 1, "fields": {"diagnosis": "Шизофрения параноидная", "icd_code": "F20.0"}}, {"model": "hospitalizations.diagnosis", "pk": 2, "fields": {"diagnosis": "Расстройство адаптации", "icd_code": "F43.0"}}]

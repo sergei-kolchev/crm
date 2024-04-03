@@ -1,6 +1,16 @@
     <tr class="{% if not patient.active %}grey-text{% endif %}">
-        <td class="align-middle ps-2">{{ patient.surname }} {{ patient.name }} {{ patient.patronymic }} </td>
+        <td class="align-middle ps-2">
+            {% if patient.hospitalizations.all %}
+            <a class="{% if not patient.active %}grey-text{% endif %}" href="" hx-boost="true" hx-get="{% url 'hospitalizations:hospitalizations' patient.pk %}" hx-target="#main">
+            {{ patient.surname }} {{ patient.name }} {{ patient.patronymic }}
+            </a>
+            {% else %}
+            {{ patient.surname }} {{ patient.name }} {{ patient.patronymic }}
+            {% endif %}
+        </td>
         <td class="align-middle text-center"> {{ patient.birthday }} </td>
+        <td class="align-middle text-center"> {{ patient.registration_address }} </td>
+        <td class="align-middle text-center"> {{ patient.residential_address }} </td>
          <td class="align-middle text-center">
              {% include 'patients/includes/status_buttons.html' %}
         </td>

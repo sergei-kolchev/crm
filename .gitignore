@@ -1,6 +1,7 @@
 .tox
 .env
-.env.*
+crm/.env.prod
 .idea/
 __pycache__/
 venv/
+debug.log

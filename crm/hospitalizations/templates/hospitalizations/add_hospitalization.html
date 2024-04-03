@@ -1,0 +1,25 @@
+{% extends 'patients/partial_base.html' %}
+{% block partial_content %}
+<form>
+    <div class="container col-md-7 col-md-offset-3 text-center">
+    {% csrf_token %}
+    <div class="form-error">{{ form.non_field_errors }}</div>
+    {% for f in form %}
+        <div class="input-group mb-3">
+            <span class="input-group-text" id="{{ f.id_for_label }}">{{ f.label }}</span>
+            {{ f }}
+        </div>
+        {% if f.errors %}
+        <div class="text-danger">{{ f.errors }}</div>
+        {% endif %}
+    {% endfor %}
+    <p>
+    <button class="btn btn-dark btn-sm"
+            hx-post="{% if update %}{% url 'hospitalizations:update_current' hospitalization.pk %}{% else %}{% url 'hospitalizations:create' %}{% endif %}"
+            hx-target="#main" >
+        Сохранить
+    </button>
+    </p>
+    </div>
+</form>
+{% endblock %}

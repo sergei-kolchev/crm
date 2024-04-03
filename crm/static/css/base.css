@@ -70,3 +70,19 @@ a {
       opacity: 0.5;
       pointer-events: none;
  }
+
+.form-error {
+    color:red;
+}
+
+.waiting {
+    display: block;
+}
+
+.finished {
+    display: none;
+}
+
+.downloading_error {
+    display: none;
+}
