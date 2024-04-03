@@ -2,7 +2,6 @@ from django.contrib.auth import get_user_model
 from django.db.models import CharField, F, Func, Q, TextField, Value
 from django.db.models.functions import Concat
 from django.shortcuts import get_object_or_404
-
 from hospitalizations.models import Hospitalization
 
 
@@ -46,7 +45,7 @@ class FileContent:
     @staticmethod
     def get_current_by_doctors():
         queryset = get_user_model().objects.filter(
-            Q(hospitalizations__leaving_date=None) & ~Q(username="root")
+            Q(hospitalizations__leaving_date=None)
         )
         queryset = (
             queryset.annotate(
@@ -95,17 +94,17 @@ class FileContent:
             "tbl_contents": list(
                 queryset.annotate(
                     formatted_entry_date=Func(
-                        Value("%d.%m.%Y"),
                         F("entry_date"),
-                        function="strftime",
+                        Value("DD.MM.YYYY"),
+                        function="TO_CHAR",
                         output_field=TextField(),
                     )
                 )
                 .annotate(
                     formatted_birthday=Func(
-                        Value("%d.%m.%Y"),
                         F("patient__birthday"),
-                        function="strftime",
+                        Value("DD.MM.YYYY"),
+                        function="TO_CHAR",
                         output_field=TextField(),
                     )
                 )

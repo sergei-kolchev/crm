@@ -216,7 +216,6 @@ def render_partial(
 
 
 class RenderPartial:
-    success_message = None  # TODO сделать вывод success_message
     error_message = None
 
     def dispatch(self, request, *args, **kwargs):
@@ -234,21 +233,3 @@ class RenderPartial:
             context["template_include"] = self.template_name
             self.template_name = "htmx/relay.html"
         return context
-
-
-# def form_valid(self, form):
-#    response = super().form_valid(form)
-#    print('ok!')
-#    response = send_message(
-#        response,
-#        self.error_message
-#    )
-#   return response
-
-# def form_invalid(self, form):
-#    response = super().form_invalid(form)
-#    response = send_message(
-#        response,
-#        self.error_message
-#    )
-#    return response

@@ -14,9 +14,9 @@ broker = "amqp://{}:{}@{}:{}//".format(
 )
 
 app = Celery(
-    "crm",
+    settings.REDIS_NAME,
     broker=broker,
-    backend="redis://localhost:6379",
+    backend=f"redis://{settings.REDIS_HOST}:{settings.REDIS_PORT}",
     setup_defaults={"time_limit": 120, "soft_time_limit": 120},
 )
 app.config_from_object("django.conf:settings", namespace="CELERY")

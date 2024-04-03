@@ -18,7 +18,6 @@ def get_page(
     patients = get_all(order_by, direction, search_query)
     paginator = Paginator(patients, settings.PATIENTS_PAGINATE_BY)
     page_obj = paginator.get_page(page_number)
-
     return page_obj
 
 

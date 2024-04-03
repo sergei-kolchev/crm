@@ -2,16 +2,14 @@ from typing import Union
 
 from django.db.models import F
 from django.http import HttpRequest, HttpResponse
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import render
 from django.urls import exceptions
 from django.views.decorators.http import require_GET, require_http_methods
-
 from htmx.http import HtmxHttpRequest, render_partial, require_HTMX
 from utils.utils import login_required
 
 from . import service
 from .forms import AddPatientForm
-from .models import Patient
 
 
 @login_required
@@ -104,7 +102,7 @@ def create_patient(
 @require_HTMX("patients:index")
 @require_http_methods(["POST", "PUT"])
 def update_patient(request: HtmxHttpRequest, pk: int) -> HttpResponse:
-    patient = get_object_or_404(Patient, pk=pk)
+    patient = service.get_one(pk)
     if request.method == "POST":
         form = AddPatientForm(request.POST, instance=patient)
         if form.is_valid():
@@ -132,7 +130,7 @@ def update_patient(request: HtmxHttpRequest, pk: int) -> HttpResponse:
 @require_HTMX("patients:index")
 @require_http_methods(["DELETE"])
 def patient_delete(request: HtmxHttpRequest, pk: int) -> HttpResponse:
-    patient = get_object_or_404(Patient, pk=pk)
+    patient = service.get_one(pk)
     patient.delete()
     return render_partial(
         request,
@@ -145,7 +143,7 @@ def patient_delete(request: HtmxHttpRequest, pk: int) -> HttpResponse:
 @require_HTMX("patients:index")
 @require_GET
 def patient_detail(request: HtmxHttpRequest, pk: int) -> HttpResponse:
-    patient = get_object_or_404(Patient, pk=pk)
+    patient = service.get_one(pk)
     return render(
         request,
         "patients/includes/patient_detail.html",
@@ -159,10 +157,10 @@ def patient_detail(request: HtmxHttpRequest, pk: int) -> HttpResponse:
 @require_HTMX("patients:index")
 @require_http_methods(["POST", "PUT"])
 def update_patient_status(request: HtmxHttpRequest, pk: int):
-    patient = get_object_or_404(Patient, pk=pk)
+    patient = service.get_one(pk)
     patient.active = ~F("active")
     patient.save()
-    patient.refresh_from_db(fields=["active"])  # TODO Изменить на if ... else?
+    patient.refresh_from_db(fields=["active"])
 
     return render(
         request,

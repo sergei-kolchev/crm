@@ -18,14 +18,12 @@
     <option value="0">Все врачи</option>
   {% endif %}
   {% for doctor in doctors %}
-      {% if doctor.username != 'root' %}
-        {% if doctor.pk == selected_doctor %}
-            <option value="{{ doctor.pk }}" selected>{{ doctor }}</option>
-        {% else %}
-            {{ selected_doctor }} {{ doctor.pk }}
-            <option value="{{ doctor.pk }}">{{ doctor }}</option>
-        {% endif %}
-      {% endif %}
+    {% if doctor.pk == selected_doctor %}
+        <option value="{{ doctor.pk }}" selected>{{ doctor }}</option>
+    {% else %}
+        {{ selected_doctor }} {{ doctor.pk }}
+        <option value="{{ doctor.pk }}">{{ doctor }}</option>
+    {% endif %}
   {% endfor %}
   </select>
 </div>

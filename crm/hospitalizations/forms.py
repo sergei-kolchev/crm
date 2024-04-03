@@ -155,7 +155,6 @@ class UpdateHospitalizationInlineForm(forms.ModelForm):
     def clean(self):
         cleaned_data = super().clean()
         if "entry_date" in cleaned_data:
-            # TODO говнокод
             hospitalization = Hospitalization.objects.get(pk=self.instance.pk)
             h = hospitalization.patient.hospitalizations.exclude(
                 pk=self.instance.pk

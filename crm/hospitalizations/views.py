@@ -8,7 +8,6 @@ from django.views.generic import (
     TemplateView,
     UpdateView,
 )
-
 from file_downloader.views import CreateFileDocxView
 from htmx.http import RenderPartial
 from patients import service as patient_service
@@ -137,7 +136,7 @@ class Leave(LoginRequiredMixin, DataMixin, UpdateView):
     form_class = LeaveForm
     template_name = "hospitalizations/leave.html"
     success_url = reverse_lazy("hospitalizations:current")
-    page_title = "Выписать пациента"
+    title_page = "Выписать пациента"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -167,7 +166,7 @@ class CurrentHospitalizationsCreateDocxView(
 ):
     template_file_path = "docx/list.docx"
     download_url = "hospitalizations:download_current_docx"
-    task = tasks.BuildCurrentDocxFileTask  # TODO str?
+    task = tasks.BuildCurrentDocxFileTask
     selected_doctor = 0
 
     def get(self, request, *args, **kwargs):
@@ -189,7 +188,7 @@ class CurrentHospitalizationsByDoctorsCreateDocxView(
 ):
     template_file_path = "docx/list_by_doctors.docx"
     download_url = "hospitalizations:download_current_docx"
-    task = tasks.BuildCurrentByDoctorsDocxFileTask  # TODO str?
+    task = tasks.BuildCurrentByDoctorsDocxFileTask
 
 
 class CurrentHospitalizationsCreateXlsxView(
@@ -198,7 +197,7 @@ class CurrentHospitalizationsCreateXlsxView(
     template_file_path = "docx/list.xlsx"
     temp_file_extension = "xlsx"
     download_url = "hospitalizations:download_current_xlsx"
-    task = tasks.BuildCurrentXlsxFileTask  # TODO str? агрегация
+    task = tasks.BuildCurrentXlsxFileTask
 
 
 class DocumentsView(LoginRequiredMixin, DataMixin, DetailView):
@@ -220,9 +219,6 @@ class CreateDocumentDocxView(
         }
         context = super().get_context_data(**self.task_kwargs)
         return context
-
-
-###
 
 
 class CreateReferenceDocxView(CreateDocumentDocxView):

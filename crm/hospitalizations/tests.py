@@ -3,20 +3,19 @@ from datetime import datetime
 from http import HTTPStatus
 from unittest.mock import Mock, patch
 
+import file_downloader
 from django import forms as django_forms
 from django.contrib.auth import get_user_model
 from django.http import HttpResponse
 from django.test import SimpleTestCase, TestCase
 from django.urls import reverse
-from parameterized import parameterized
-
-import file_downloader
 from hospitalizations import forms
 from hospitalizations.models import Diagnosis, Hospitalization
 from hospitalizations.utils import (
     check_dates_intersection,
     validate_hospitalization_fields,
 )
+from parameterized import parameterized
 from patients.models import Patient
 
 

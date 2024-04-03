@@ -91,7 +91,6 @@ urlpatterns = [
         files_views.DownloadFileDocxView.as_view(),
         name="download_docx",
     ),
-    ###
     path(
         "documents/reference/<int:pk>/docx",
         views.CreateReferenceDocxView.as_view(),

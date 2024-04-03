@@ -1,7 +1,6 @@
 from django.test import TestCase
 from django.urls import reverse
 from parameterized import parameterized
-
 from tables import buttons, fields
 from tables.builders import TableHeaderCellBuilder
 from tables.cells import TableHeaderCell
