@@ -4,6 +4,8 @@ from . import BASE_DIR
 
 SECRET_KEY = os.getenv("SECRET_KEY")
 
+CSRF_TRUSTED_ORIGINS = ["https://nginx", "https://127.0.0.1"]
+
 ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS").split(",")
 
 # Application definition

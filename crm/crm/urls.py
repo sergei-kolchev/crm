@@ -1,9 +1,9 @@
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import include, path
-from patients import views
 
 from crm import settings
+from patients import views
 
 urlpatterns = [
     path("admin/", admin.site.urls),

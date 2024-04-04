@@ -1,6 +1,8 @@
 .tox
 .env
 crm/.env.prod
+crm/.env.dev
+nginx/ssl/*
 .idea/
 __pycache__/
 venv/

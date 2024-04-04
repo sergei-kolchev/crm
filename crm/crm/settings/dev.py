@@ -1,7 +1,6 @@
 import os
-from . import BASE_DIR
 
-print("Warning: development mode")
+from . import BASE_DIR
 
 DEBUG = True
 

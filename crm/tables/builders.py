@@ -2,6 +2,7 @@ from abc import ABC, abstractmethod
 from typing import Callable, Union
 
 from django.urls import reverse
+
 from tables.buttons import Button
 from tables.cells import Cell, TableBodyCell, TableButtonsCell, TableHeaderCell
 

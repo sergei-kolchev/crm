@@ -2,8 +2,9 @@ from pathlib import Path
 from unittest.mock import Mock
 
 from django.test import TestCase
-from file_downloader.views import CreateFileView, DownloadFileView
 from parameterized import parameterized
+
+from file_downloader.views import CreateFileView, DownloadFileView
 
 
 class CreateFileViewTests(TestCase):
