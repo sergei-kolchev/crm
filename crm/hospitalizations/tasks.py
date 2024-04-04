@@ -1,7 +1,6 @@
+from crm import celery_app
 from file_downloader.tasks import BuildFileTask
 from hospitalizations import service
-
-from crm import celery_app
 
 
 class BuildCurrentByDoctorsDocxFileTask(BuildFileTask):

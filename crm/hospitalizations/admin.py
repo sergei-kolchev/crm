@@ -1,4 +1,5 @@
 from django.contrib import admin
+
 from hospitalizations.models import Diagnosis, Hospitalization
 
 

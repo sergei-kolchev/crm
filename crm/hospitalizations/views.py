@@ -8,6 +8,7 @@ from django.views.generic import (
     TemplateView,
     UpdateView,
 )
+
 from file_downloader.views import CreateFileDocxView
 from htmx.http import RenderPartial
 from patients import service as patient_service
