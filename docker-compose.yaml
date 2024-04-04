@@ -2,19 +2,19 @@ version: "2.2"
 
 services:
   redis:
-    container_name: redis_container
+    container_name: crm_redis
     image: redis
     restart: always
     env_file:
-      - crm/.env.prod
+      - crm/.env
     expose:
       - 6739
 
   postgres:
-    container_name: postgres_container
+    container_name: crm_postgres
     image: postgres
     env_file:
-      - crm/.env.prod
+      - crm/.env
     restart: always
     expose:
       - 5432
@@ -28,9 +28,9 @@ services:
 
   rabbitmq:
     image: rabbitmq:3-management
-    container_name: rabbitmq
+    container_name: crm_rabbitmq
     env_file:
-      - crm/.env.prod
+      - crm/.env
     expose:
       - 5672
       - 15672
@@ -40,10 +40,10 @@ services:
   celery:
     build:
       context: .
-    container_name: celery
+    container_name: crm_celery
     entrypoint: /crm/docker/celery.sh
     env_file:
-      - crm/.env.prod
+      - crm/.env
     restart: always
     depends_on:
       - redis
@@ -58,7 +58,7 @@ services:
       context: .
     container_name: crm
     env_file:
-      - crm/.env.prod
+      - crm/.env
     entrypoint: /crm/docker/crm.sh
     restart: always
     depends_on:
@@ -74,13 +74,15 @@ services:
       - 8000
 
   nginx:
-    build: ./nginx
-    container_name: nginx
+    build:
+      context: ./nginx
+    container_name: crm_nginx
+    restart: always
     volumes:
       - static_volume:/crm/static
       - media_volume:/crm/media
     ports:
-      - 80:80
+      - 443:443
     depends_on:
       - crm
 

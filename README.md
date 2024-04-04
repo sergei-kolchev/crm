@@ -20,11 +20,17 @@
 
 ## Установка
 
-1. Склонировать репозиторий
-2. Cоздать файл crm/.env.prod (пример .env-example)
+1. Клонировать репозиторий
+2. Cоздать файл crm/.env по образцу crm/.env-example
+
+
+> [!IMPORTANT]
+> Необходимо заменить сертификаты в nginx/ssl/, изменить пароль
+> суперпользователя DJANGO_SUPERUSER_PASSWORD
+
 3. Выполнить
 ```commandline
-sudo docker-compose up --build
+sudo docker-compose build && sudo docker-compose up -d
 ```
 
 По умолчанию проект разворачивается с фейковыми данными.
