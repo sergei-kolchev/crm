@@ -22,12 +22,21 @@
 
 1. Клонировать репозиторий
 2. Cоздать файл crm/.env по образцу crm/.env-example
-3. Скопировать ключи в nginx/ssl/
 
 > [!IMPORTANT]
 > Необходимо изменить пароль суперпользователя DJANGO_SUPERUSER_PASSWORD
 
-3. Выполнить
+
+3. Скопировать ключи в nginx/ssl/
+4. Отредактировать crm/crm/settings/base.py, добавить адрес сайта в CSRF_TRUSTED_ORIGINS:
+
+```python
+...
+CSRF_TRUSTED_ORIGINS = ["https://nginx", "https://127.0.0.1", "https://mysite.com"]
+...
+```
+
+5. Выполнить
 ```commandline
 sudo docker-compose build && sudo docker-compose up -d
 ```
