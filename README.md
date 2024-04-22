@@ -9,26 +9,26 @@
    <img src="https://img.shields.io/badge/License-MIT-success" alt="License">
 </p>
 
-## О проекте
+## About
 
-Медицинская CRM для автоматизации работы медицинского учреждения:
+Medical information system for automating the work of the medical department:
 
-Возможности: 
-- Управление учетными записями пациентов 
-- Управление госпитализациями 
-- Работа с медицинскими документами
+Opportunities: 
+- Managing patient accounts 
+- Management of hospitalizations 
+- Work with medical documents
 
-## Установка
+## Installation
 
-1. Клонировать репозиторий
-2. Cоздать файл crm/.env по образцу crm/.env-example
+1. Clone the repository
+2. Create a `crm/.env` file (example - `crm/.env-example`)
 
 > [!IMPORTANT]
-> Необходимо изменить пароль суперпользователя DJANGO_SUPERUSER_PASSWORD
+> You need to change the superuser password `DJANGO_SUPERUSER_PASSWORD`
 
 
-3. Скопировать ключи в nginx/ssl/
-4. Отредактировать crm/crm/settings/base.py, добавить адрес сайта в CSRF_TRUSTED_ORIGINS:
+3. Copy the keys to `nginx/ssl/`
+4. Edit `crm/crm/settings/base.py`, add the site address to `CSRF_TRUSTED_ORIGINS`:
 
 ```python
 ...
@@ -36,21 +36,21 @@ CSRF_TRUSTED_ORIGINS = ["https://nginx", "https://127.0.0.1", "https://mysite.co
 ...
 ```
 
-5. Выполнить
+5. Execute
 ```commandline
 sudo docker-compose build && sudo docker-compose up -d
 ```
 
-По умолчанию проект разворачивается с фейковыми данными.
+By default, the project is deployed with fake data.
 
-## Демо-версия
+## Demo
 
-[перейти](https://91.236.198.62)
+[link](https://91.236.198.62)
 
-## Разработчики
+## Developers
 
 - [sergei-kolchev](https://github.com/sergei-kolchev)
 
-## Лицензия
+## License
 
-Проект распространяется под лицензией MIT license.
+The project is distributed under the MIT license.
